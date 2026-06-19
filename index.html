@@ -177,8 +177,16 @@
     pointer-events:none;z-index:6}
 
   /* ---- controls ---- */
-  .controls{z-index:3;display:flex;flex-direction:column;align-items:center;gap:12px;
+  .controls{z-index:3;position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;
     margin:0;width:100%;max-width:360px;padding:0 22px}
+  .wish{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;
+    gap:5px;text-align:center;text-wrap:pretty;pointer-events:none}
+  .wish.show{display:flex;animation:wishpop .55s cubic-bezier(.2,.8,.3,1.2)}
+  @keyframes wishpop{0%{opacity:0;transform:scale(.78)}100%{opacity:1;transform:scale(1)}}
+  .wish-1{font-family:"Noto Serif SC",serif;font-weight:700;font-size:22px;letter-spacing:.03em;
+    background:linear-gradient(120deg,#E8709F,#D27FB6 55%,#E1A064);-webkit-background-clip:text;
+    background-clip:text;color:transparent;filter:drop-shadow(0 2px 8px rgba(226,123,166,.28))}
+  .wish-2{font-size:14px;font-weight:600;color:var(--rose-dk)}
   .row{display:flex;gap:12px;width:100%}
   #micRow{visibility:hidden}
   #micRow.show{visibility:visible}
@@ -262,6 +270,10 @@
       <div class="meter" id="meter"><i id="meterBar"></i></div>
       <div class="mic-hint" id="micHint"></div>
     </div>
+    <div class="wish" id="wishMsg">
+      <div class="wish-1">祝 🐷 生日快乐!</div>
+      <div class="wish-2">祝你早日有大别墅和小狗 🏡🐶</div>
+    </div>
   </div>
   </div>
 
@@ -282,6 +294,7 @@
   const micRow = document.getElementById('micRow');
   const candleHint = document.getElementById('candleHint');
   const celebrateBg = document.getElementById('celebrateBg');
+  const wishMsg = document.getElementById('wishMsg');
 
   // build candles
   const candles = [];
@@ -307,7 +320,7 @@
     if(!scene.classList.contains('opened')) return;
     if(candles[i].classList.contains('on')) return;
     candles[i].classList.add('on');
-    celebrated=false; stopParty();
+    celebrated=false; stopParty(); wishMsg.classList.remove('show');
     updateScene();
     if(allLit()){
       candleHint.classList.remove('show');
@@ -434,7 +447,10 @@
 
   function celebrate(){
     if(celebrated) return; celebrated=true;
-    sub.textContent='🎉 愿望一定会成真的 · 生日快乐!';
+    sub.textContent='愿望一定会成真 ✨';
+    if(micOn) stopMic();              // 自动关闭麦克风
+    micRow.classList.remove('show');  // 隐藏按钮(音量条由 stopMic 隐藏)
+    wishMsg.classList.add('show');    // 出现祝福文字
     startParty();
     cake.animate([{transform:'translateY(6px) scale(1)'},{transform:'translateY(6px) scale(1.06)'},{transform:'translateY(6px) scale(1)'}],{duration:600,easing:'ease-out'});
   }
