@@ -372,7 +372,7 @@
     c.innerHTML='<div class="flame"></div>';
     // 围绕蛋糕顶部、向上拱的圆弧排列
     const t = (CANDLE_COUNT>1 ? i/(CANDLE_COUNT-1) : 0.5) - 0.5; // -0.5 .. 0.5
-    const xoff = t*168, yoff = t*t*98, rot = t*40;
+    const xoff = t*168, yoff = t*t*98, rot = t*18;
     c.style.left = 'calc(50% + ' + xoff.toFixed(1) + 'px)';
     c.style.top = yoff.toFixed(1) + 'px';
     c.style.transform = 'translateX(-50%) rotate(' + rot.toFixed(1) + 'deg) scale(.86)';
