@@ -109,35 +109,61 @@
   .scene.opened .candle:not(.on){animation:wickpulse 1.7s ease-in-out infinite}
   @keyframes wickpulse{0%,100%{box-shadow:inset -3px 0 rgba(150,90,120,.14),0 2px 5px rgba(176,118,150,.30)}
     50%{box-shadow:inset -3px 0 rgba(150,90,120,.14),0 2px 5px rgba(176,118,150,.30),0 0 0 3px rgba(245,168,196,.35)}}
-  /* ---- bichon puppy topper (fluffy pure-CSS) ---- */
-  .cake .dog{position:absolute;left:50%;top:56px;transform:translateX(-50%);width:104px;height:96px;z-index:4;
-    pointer-events:none;filter:drop-shadow(0 5px 9px rgba(176,118,150,.30))}
-  .dog span{position:absolute}
-  /* floppy fluffy ears (behind head) */
-  .dog .ear{top:32px;width:36px;height:44px;border-radius:54% 46% 46% 54%/62% 62% 38% 38%;
-    background:radial-gradient(circle at 50% 32%,#FBF3E4,#E9D9BE);z-index:1}
-  .dog .ear.l{left:2px;transform:rotate(-17deg)}
-  .dog .ear.r{right:2px;transform:rotate(17deg)}
-  /* fluffy head — cloud silhouette via box-shadow puffs */
-  .dog .head{left:50%;top:14px;transform:translateX(-50%);width:64px;height:58px;border-radius:50%;
-    background:#FFFDF7;z-index:2;
-    box-shadow:-21px 3px 0 -5px #FFFDF7, 21px 3px 0 -5px #FFFDF7,
-      -16px 17px 0 -7px #FFFDF7, 16px 17px 0 -7px #FFFDF7,
-      -17px -11px 0 -8px #FFFDF7, 17px -11px 0 -8px #FFFDF7,
-      0 -15px 0 -6px #FFFDF7, inset -7px -9px 12px rgba(238,226,206,.55)}
-  /* signature top poof */
-  .dog .tuft{left:50%;top:1px;transform:translateX(-50%);width:42px;height:32px;border-radius:50%;
-    background:#FFFDF7;z-index:3;box-shadow:-13px 7px 0 -7px #FFFDF7,13px 7px 0 -7px #FFFDF7}
-  /* face */
-  .dog .cheek{top:48px;width:11px;height:7px;border-radius:50%;background:rgba(245,150,180,.55);z-index:4}
-  .dog .cheek.l{left:25px} .dog .cheek.r{right:25px}
-  .dog .eye{top:37px;width:9px;height:11px;border-radius:50%;background:#3c2f34;z-index:5}
-  .dog .eye::after{content:"";position:absolute;top:2px;left:2px;width:3px;height:3px;border-radius:50%;background:#fff}
-  .dog .eye.l{left:36px} .dog .eye.r{right:36px}
-  .dog .nose{left:50%;top:48px;transform:translateX(-50%);width:11px;height:8px;
-    border-radius:50% 50% 50% 50%/38% 38% 62% 62%;background:#3c2f34;z-index:6}
-  .dog .mouth{left:50%;top:56px;transform:translateX(-50%);width:15px;height:7px;z-index:5;
-    border-bottom:2px solid #6b5a52;border-radius:0 0 80% 80%/0 0 100% 100%}
+  /* ---- two puppies on the cake: border collie + bichon ---- */
+  .cake .dogs{position:absolute;left:50%;top:46px;transform:translateX(-50%);width:210px;height:108px;z-index:4;
+    pointer-events:none;filter:drop-shadow(0 6px 11px rgba(176,118,150,.28))}
+  .dogs .pup{position:absolute;top:0;width:104px;height:108px;transform-origin:50% 94%}
+  .dogs .pup span{position:absolute}
+  .dogs .collie{left:-4px;animation:tiltL 3.4s ease-in-out infinite}
+  .dogs .bichon{right:-4px;animation:tiltR 3.9s ease-in-out infinite}
+  @keyframes tiltL{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(-11deg)}}
+  @keyframes tiltR{0%,100%{transform:rotate(5deg)}50%{transform:rotate(11deg)}}
+  @keyframes blink{0%,93%,100%{transform:scaleY(1)}96.5%{transform:scaleY(.12)}}
+
+  /* border collie (black & white) */
+  .collie .ear{top:2px;width:32px;height:42px;z-index:1;border-radius:52% 48% 46% 54%/66% 66% 34% 34%;
+    background:linear-gradient(180deg,#3c3b44,#2a2930)}
+  .collie .ear.l{left:5px;transform:rotate(-16deg)}
+  .collie .ear.r{right:5px;transform:rotate(16deg)}
+  .collie .head{left:50%;top:16px;transform:translateX(-50%);width:80px;height:74px;z-index:2;
+    border-radius:48% 48% 46% 46%/52% 52% 48% 48%;background:radial-gradient(circle at 50% 28%,#3d3c45,#2b2a32)}
+  .collie .blaze{left:50%;top:18px;transform:translateX(-50%);width:22px;height:48px;z-index:3;
+    background:#FBF8F3;border-radius:46% 46% 50% 50%/56% 56% 44% 44%}
+  .collie .muzzle{left:50%;top:50px;transform:translateX(-50%);width:56px;height:42px;z-index:3;
+    border-radius:50% 50% 50% 50%/42% 42% 58% 58%;background:radial-gradient(circle at 50% 34%,#fff,#F1EADC)}
+  .collie .cheek{top:54px;width:11px;height:7px;border-radius:50%;background:rgba(245,150,180,.45);z-index:4}
+  .collie .cheek.l{left:22px}.collie .cheek.r{right:22px}
+  .collie .eye{top:40px;width:13px;height:14px;border-radius:50%;z-index:5;
+    background:radial-gradient(circle at 40% 32%,#a9763c,#5b3a18);animation:blink 4s infinite}
+  .collie .eye::after{content:"";position:absolute;top:3px;left:8px;width:3px;height:3px;border-radius:50%;background:#fff}
+  .collie .eye.l{left:16px}.collie .eye.r{right:16px}
+  .collie .nose{left:50%;top:54px;transform:translateX(-50%);width:15px;height:11px;z-index:6;
+    border-radius:50% 50% 50% 50%/42% 42% 58% 58%;background:#23222a}
+  .collie .mouth{left:50%;top:66px;transform:translateX(-50%);width:18px;height:8px;z-index:5;
+    border-bottom:2px solid #6a5a52;border-radius:0 0 80% 80%/0 0 100% 100%}
+
+  /* bichon (fluffy white) */
+  .bichon .ear{top:30px;width:36px;height:46px;z-index:1;border-radius:54% 46% 46% 54%/62% 62% 38% 38%;
+    background:radial-gradient(circle at 50% 32%,#FBF3E4,#E7D6BC)}
+  .bichon .ear.l{left:0;transform:rotate(-18deg)}
+  .bichon .ear.r{right:0;transform:rotate(18deg)}
+  .bichon .head{left:50%;top:14px;transform:translateX(-50%);width:66px;height:60px;border-radius:50%;background:#FFFDF7;z-index:2;
+    box-shadow:-22px 3px 0 -5px #FFFDF7,22px 3px 0 -5px #FFFDF7,-17px 18px 0 -7px #FFFDF7,17px 18px 0 -7px #FFFDF7,
+      -18px -11px 0 -8px #FFFDF7,18px -11px 0 -8px #FFFDF7,0 -16px 0 -6px #FFFDF7,inset -7px -9px 12px rgba(238,226,206,.5)}
+  .bichon .tuft{left:50%;top:0;transform:translateX(-50%);width:44px;height:34px;border-radius:50%;background:#FFFDF7;z-index:3;
+    box-shadow:-14px 8px 0 -7px #FFFDF7,14px 8px 0 -7px #FFFDF7}
+  .bichon .muzzle{left:50%;top:43px;transform:translateX(-50%);width:42px;height:33px;border-radius:50%;z-index:4;
+    background:radial-gradient(circle at 50% 30%,#fff,#F4EADB)}
+  .bichon .cheek{top:45px;width:11px;height:7px;border-radius:50%;background:rgba(245,150,180,.5);z-index:5}
+  .bichon .cheek.l{left:19px}.bichon .cheek.r{right:19px}
+  .bichon .eye{top:35px;width:10px;height:12px;border-radius:50%;background:#2f2730;z-index:6;animation:blink 5.2s infinite .6s}
+  .bichon .eye::after{content:"";position:absolute;top:2px;left:2px;width:3px;height:3px;border-radius:50%;background:#fff}
+  .bichon .eye.l{left:30px}.bichon .eye.r{right:30px}
+  .bichon .nose{left:50%;top:47px;transform:translateX(-50%);width:12px;height:9px;z-index:7;
+    border-radius:50% 50% 50% 50%/40% 40% 60% 60%;background:#2f2730}
+  .bichon .tongue{left:50%;top:57px;transform:translateX(-50%);width:10px;height:12px;z-index:6;
+    border-radius:50% 50% 50% 50%/38% 38% 62% 62%;background:#F58CA8}
+  .bichon .tongue::after{content:"";position:absolute;left:50%;top:2px;transform:translateX(-50%);width:1.5px;height:7px;background:rgba(200,90,120,.55)}
 
   .cake .candles{position:absolute;left:0;right:0;top:-58px;display:flex;justify-content:center;
     gap:18px;z-index:5}
@@ -258,12 +284,21 @@
       <div class="tier top"></div>
       <div class="icing"></div>
       <div class="tier bottom"></div>
-      <div class="dog">
-        <span class="ear l"></span><span class="ear r"></span>
-        <span class="head"></span><span class="tuft"></span>
-        <span class="cheek l"></span><span class="cheek r"></span>
-        <span class="eye l"></span><span class="eye r"></span>
-        <span class="nose"></span><span class="mouth"></span>
+      <div class="dogs">
+        <div class="pup collie">
+          <span class="ear l"></span><span class="ear r"></span>
+          <span class="head"></span><span class="blaze"></span><span class="muzzle"></span>
+          <span class="cheek l"></span><span class="cheek r"></span>
+          <span class="eye l"></span><span class="eye r"></span>
+          <span class="nose"></span><span class="mouth"></span>
+        </div>
+        <div class="pup bichon">
+          <span class="ear l"></span><span class="ear r"></span>
+          <span class="head"></span><span class="tuft"></span><span class="muzzle"></span>
+          <span class="cheek l"></span><span class="cheek r"></span>
+          <span class="eye l"></span><span class="eye r"></span>
+          <span class="nose"></span><span class="tongue"></span>
+        </div>
       </div>
     </div>
   </div>
