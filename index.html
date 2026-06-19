@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>吹蜡烛 · 生日快乐</title>
+<link rel="preload" as="image" href="assets/cake.png" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -357,6 +358,8 @@
 
 <script>
 (function(){
+  // 预先把蛋糕图加载进缓存(开盒/点蜡烛前就备好,避免图片丢失或闪烁)
+  (function preloadCake(){ var im=new Image(); im.src='assets/cake.png'; })();
   const CANDLE_COUNT = 5;
   const candlesEl = document.getElementById('candles');
   const scene = document.getElementById('scene');
