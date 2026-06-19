@@ -155,7 +155,6 @@
   <div class="controls">
     <div class="row">
       <button id="lightBtn">🔥 点燃蜡烛</button>
-      <button id="blowBtn" class="ghost">💨 吹一口气</button>
     </div>
     <div class="mic">
       <button id="micBtn" class="ghost">🎤 用麦克风吹</button>
@@ -173,7 +172,6 @@
   const scene = document.getElementById('scene');
   const sub = document.getElementById('sub');
   const lightBtn = document.getElementById('lightBtn');
-  const blowBtn = document.getElementById('blowBtn');
   const micBtn = document.getElementById('micBtn');
   const meter = document.getElementById('meter');
   const meterBar = document.getElementById('meterBar');
@@ -196,7 +194,6 @@
 
   function updateScene(){
     if(anyLit()){scene.classList.add('lit')} else {scene.classList.remove('lit')}
-    blowBtn.disabled = !anyLit();
     micBtn.disabled = false;
   }
 
@@ -248,7 +245,6 @@
       }, idx*130);
     });
   }
-  blowBtn.addEventListener('click',blowOut);
 
   // ---------- celebration ----------
   let celebrated=false;
