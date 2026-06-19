@@ -148,9 +148,8 @@
   .bichon svg{position:absolute;left:50%;top:2px;transform:translateX(-50%);width:108px;height:auto;overflow:visible}
   .bichon .b-eye{transform-box:fill-box;transform-origin:50% 50%;animation:blink 5.2s infinite .8s}
 
-  .cake .candles{position:absolute;left:0;right:0;top:30%;display:flex;justify-content:center;
-    gap:16px;z-index:5}
-  .candle{position:relative;width:11px;height:62px;border-radius:5px;
+  .cake .candles{position:absolute;left:0;right:0;top:15%;height:0;z-index:5}
+  .candle{position:absolute;transform-origin:50% 100%;width:11px;height:62px;border-radius:5px;
     background:repeating-linear-gradient(45deg,#fff 0 6px,#F7A8C6 6px 12px);
     box-shadow:inset -3px 0 rgba(150,90,120,.14), 0 2px 5px rgba(176,118,150,.30);cursor:pointer}
   .candle::after{content:"";position:absolute;top:-4px;left:50%;transform:translateX(-50%);
@@ -326,7 +325,7 @@
         <div class="wf-sub">想要什么礼物呀?</div>
         <div class="wf-opts">
           <button class="wf-opt" data-wish="大别墅和小狗 🏡🐶">A · 大别墅和小狗</button>
-          <button class="wf-opt" data-wish="包包 👜">B · 包包</button>
+          <button class="wf-opt" data-wish="包包和小裙子 👜👗">B · 包包和小裙子</button>
           <button class="wf-opt" id="wfCustomBtn">C · 自己填写</button>
         </div>
         <div class="wf-custom" id="wfCustom">
@@ -371,6 +370,12 @@
     const c = document.createElement('div');
     c.className='candle';
     c.innerHTML='<div class="flame"></div>';
+    // 围绕蛋糕顶部、向上拱的圆弧排列
+    const t = (CANDLE_COUNT>1 ? i/(CANDLE_COUNT-1) : 0.5) - 0.5; // -0.5 .. 0.5
+    const xoff = t*150, yoff = t*t*64, rot = t*30;
+    c.style.left = 'calc(50% + ' + xoff.toFixed(1) + 'px)';
+    c.style.top = yoff.toFixed(1) + 'px';
+    c.style.transform = 'translateX(-50%) rotate(' + rot.toFixed(1) + 'deg) scale(.86)';
     c.addEventListener('click',()=>lightOne(i));
     candlesEl.appendChild(c);
     candles.push(c);
