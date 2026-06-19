@@ -12,7 +12,7 @@
 
 const OWNER = "dy9759";
 const REPO = "birthdaycake";
-const BRANCH = "claude/github-pages-setup-u8v1pg"; // 记录写到的分支(= Pages 部署分支)
+const BRANCH = "main"; // 记录写到的分支(= Pages 部署分支)
 const PATH = "wishes.csv";
 const ALLOW_ORIGIN = "https://dy9759.github.io"; // 只允许你的页面调用
 
