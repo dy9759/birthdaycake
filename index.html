@@ -323,7 +323,7 @@
   </div>
   </div>
 
-  <footer>打开礼物 → 点燃蜡烛 → 对着麦克风吹气熄灭</footer>
+  <footer>打开礼物 → 点燃蜡烛 → 许愿 → 对着麦克风吹灭</footer>
 
   <div class="wishflow" id="wishFlow">
     <div class="wishcard">
@@ -407,8 +407,8 @@
     updateScene();
     if(allLit()){
       candleHint.classList.remove('show');
-      micRow.classList.add('show');
-      sub.textContent='蜡烛都点亮啦 ✨ 许个愿,对着麦克风吹灭它 🎤';
+      sub.textContent='蜡烛都点亮啦 ✨ 小猪先许个愿吧 🐷';
+      openWishFlow();                 // 先许愿
     }else{
       sub.textContent='继续点亮…… 还差 '+(CANDLE_COUNT-litCount())+' 根 🕯️';
     }
@@ -531,12 +531,12 @@
 
   function celebrate(){
     if(celebrated) return; celebrated=true;
-    sub.textContent='愿望一定会成真 ✨';
+    sub.textContent='生日快乐 🎉';
     if(micOn) stopMic();              // 自动关闭麦克风
     micRow.classList.remove('show');  // 隐藏按钮(音量条由 stopMic 隐藏)
-    spawnConfetti(40);                // 吹灭瞬间小撒花
     cake.animate([{transform:'translateY(6px) scale(1)'},{transform:'translateY(6px) scale(1.06)'},{transform:'translateY(6px) scale(1)'}],{duration:600,easing:'ease-out'});
-    setTimeout(openWishFlow, 600);    // 进入「小猪许愿」环节
+    wfShow('wfFinal'); wishFlow.classList.add('show');  // 最后的祝福
+    startParty();
   }
 
   // ---------- pig wish flow ----------
@@ -565,7 +565,11 @@
     document.getElementById('wfAckWish').textContent='「'+text+'」';
     wfShow('wfAck');
     logWish(text);               // 把愿望记录到仓库(若已配置)
-    setTimeout(()=>{ wfShow('wfFinal'); startParty(); }, 1800);
+    setTimeout(()=>{             // 许完愿 → 收起卡片,出现吹蜡烛
+      closeWishFlow();
+      micRow.classList.add('show');
+      sub.textContent='愿望收到啦!现在对着麦克风吹灭蜡烛 🎤';
+    }, 1800);
   }
   document.querySelectorAll('.wf-opt[data-wish]').forEach(b=>b.addEventListener('click',()=>chooseWish(b.getAttribute('data-wish'))));
   document.getElementById('wfCustomBtn').addEventListener('click',()=>{
@@ -577,7 +581,13 @@
     chooseWish(v||'你悄悄许的小心愿');
   });
   document.getElementById('wfInput').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('wfInputOk').click(); });
-  document.getElementById('wfRestart').addEventListener('click',()=>{ stopParty(); openWishFlow(); });
+  document.getElementById('wfRestart').addEventListener('click',()=>{
+    stopParty(); closeWishFlow(); celebrated=false;
+    candles.forEach(c=>c.classList.add('on'));   // 重新点亮蜡烛
+    updateScene(); candleHint.classList.remove('show');
+    sub.textContent='蜡烛都点亮啦 ✨ 小猪先许个愿吧 🐷';
+    openWishFlow();                               // 重新许愿
+  });
 
   // ---------- microphone blow ----------
   let micOn=false, audioCtx=null, rafId=null, micStream=null;
