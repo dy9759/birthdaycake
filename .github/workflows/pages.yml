@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - claude/github-pages-setup-u8v1pg
   workflow_dispatch:
 
 permissions:
