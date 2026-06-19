@@ -98,9 +98,11 @@
   @keyframes lidpop{0%{transform:translateY(0) rotate(0)}45%{transform:translateY(-26px) rotate(-9deg)}100%{transform:translateY(-46px) rotate(-16deg)}}
   .scene.opened .gift .lid{animation:lidpop .45s ease forwards}
 
-  .cake{position:relative;width:230px;cursor:default;transform:translateY(16px) scale(.96);
+  .cake{position:relative;width:252px;cursor:default;transform:translateY(16px) scale(.96);
     opacity:0;pointer-events:none;transition:opacity .5s ease .12s, transform .5s ease .12s}
   .scene.opened .cake{opacity:1;transform:translateY(6px) scale(1);pointer-events:auto}
+  .cakeimg{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none;
+    filter:drop-shadow(0 12px 24px rgba(176,118,150,.32))}
   .cake .candlehint{position:absolute;left:50%;top:calc(100% + 18px);transform:translateX(-50%);white-space:nowrap;
     font-size:13px;font-weight:600;color:var(--rose-dk);background:rgba(255,255,255,.72);
     padding:5px 13px;border-radius:999px;box-shadow:0 5px 14px var(--shadow);pointer-events:none;
@@ -146,8 +148,8 @@
   .bichon svg{position:absolute;left:50%;top:2px;transform:translateX(-50%);width:108px;height:auto;overflow:visible}
   .bichon .b-eye{transform-box:fill-box;transform-origin:50% 50%;animation:blink 5.2s infinite .8s}
 
-  .cake .candles{position:absolute;left:0;right:0;top:-58px;display:flex;justify-content:center;
-    gap:18px;z-index:5}
+  .cake .candles{position:absolute;left:0;right:0;top:30%;display:flex;justify-content:center;
+    gap:16px;z-index:5}
   .candle{position:relative;width:11px;height:62px;border-radius:5px;
     background:repeating-linear-gradient(45deg,#fff 0 6px,#F7A8C6 6px 12px);
     box-shadow:inset -3px 0 rgba(150,90,120,.14), 0 2px 5px rgba(176,118,150,.30);cursor:pointer}
@@ -293,36 +295,9 @@
       <div class="taphint">👆 点我打开</div>
     </div>
     <div class="cake" id="cake">
-      <div class="candlehint" id="candleHint">👆 点蜡烛把它们点亮</div>
+      <img class="cakeimg" src="assets/cake.png" alt="生日蛋糕" draggable="false">
       <div class="candles" id="candles"></div>
-      <div class="tier top"></div>
-      <div class="icing"></div>
-      <div class="tier bottom"></div>
-      <div class="dogs">
-        <div class="pup collie">
-          <span class="ear l"></span><span class="ear r"></span>
-          <span class="head"></span><span class="blaze"></span><span class="muzzle"></span>
-          <span class="cheek l"></span><span class="cheek r"></span>
-          <span class="eye l"></span><span class="eye r"></span>
-          <span class="nose"></span><span class="mouth"></span>
-        </div>
-        <div class="pup bichon">
-          <svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-label="比熊">
-            <path d="M60 13 A 9.5 9.5 0 0 1 78.22 17.16 A 9.5 9.5 0 0 1 92.84 28.81 A 9.5 9.5 0 0 1 100.95 45.66 A 9.5 9.5 0 0 1 100.95 64.34 A 9.5 9.5 0 0 1 92.84 81.19 A 9.5 9.5 0 0 1 78.22 92.84 A 9.5 9.5 0 0 1 60 97 A 9.5 9.5 0 0 1 41.78 92.84 A 9.5 9.5 0 0 1 27.16 81.19 A 9.5 9.5 0 0 1 19.05 64.34 A 9.5 9.5 0 0 1 19.05 45.66 A 9.5 9.5 0 0 1 27.16 28.81 A 9.5 9.5 0 0 1 41.78 17.16 A 9.5 9.5 0 0 1 60 13 Z" fill="#FFFFFF" stroke="#4B3A2F" stroke-width="3" stroke-linejoin="round"/>
-            <g stroke="#C9B6A6" stroke-width="2" stroke-linecap="round">
-              <line x1="31" y1="58" x2="36" y2="59"/><line x1="30" y1="62" x2="35" y2="63"/><line x1="32" y1="66" x2="37" y2="66"/>
-              <line x1="89" y1="58" x2="84" y2="59"/><line x1="90" y1="62" x2="85" y2="63"/><line x1="88" y1="66" x2="83" y2="66"/>
-            </g>
-            <path d="M54 72 q0 12 6 12 q6 0 6 -12 z" fill="#F58CA8" stroke="#4B3A2F" stroke-width="1.6" stroke-linejoin="round"/>
-            <line x1="60" y1="74" x2="60" y2="83" stroke="#D96E8E" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M60 70 q-6 7 -12 2 M60 70 q6 7 12 2" fill="none" stroke="#4B3A2F" stroke-width="2.6" stroke-linecap="round"/>
-            <ellipse cx="60" cy="66" rx="6.5" ry="5" fill="#6E4A34"/>
-            <ellipse cx="58" cy="64.5" rx="2" ry="1.4" fill="#9B6E50"/>
-            <g class="b-eye"><circle cx="46" cy="55" r="7.5" fill="#2B2320"/><circle cx="48.4" cy="52.4" r="2.4" fill="#fff"/></g>
-            <g class="b-eye"><circle cx="74" cy="55" r="7.5" fill="#2B2320"/><circle cx="76.4" cy="52.4" r="2.4" fill="#fff"/></g>
-          </svg>
-        </div>
-      </div>
+      <div class="candlehint" id="candleHint">👆 点蜡烛把它们点亮</div>
     </div>
   </div>
 
