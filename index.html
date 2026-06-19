@@ -148,8 +148,8 @@
   .bichon svg{position:absolute;left:50%;top:2px;transform:translateX(-50%);width:108px;height:auto;overflow:visible}
   .bichon .b-eye{transform-box:fill-box;transform-origin:50% 50%;animation:blink 5.2s infinite .8s}
 
-  .cake .candles{position:absolute;left:0;right:0;top:-18%;height:0;z-index:1}
-  .candle{position:absolute;transform-origin:50% 100%;width:11px;height:62px;border-radius:5px;
+  .cake .candles{position:absolute;left:0;right:0;top:-8%;height:0;z-index:1}
+  .candle{position:absolute;transform-origin:50% 100%;width:10px;height:94px;border-radius:5px;
     background:repeating-linear-gradient(45deg,#fff 0 6px,#F7A8C6 6px 12px);
     box-shadow:inset -3px 0 rgba(150,90,120,.14), 0 2px 5px rgba(176,118,150,.30);cursor:pointer}
   .candle::after{content:"";position:absolute;top:-4px;left:50%;transform:translateX(-50%);
@@ -375,7 +375,7 @@
     const xoff = t*120, yoff = t*t*98, rot = t*18;
     c.style.left = 'calc(50% + ' + xoff.toFixed(1) + 'px)';
     c.style.top = yoff.toFixed(1) + 'px';
-    c.style.transform = 'translateX(-50%) rotate(' + rot.toFixed(1) + 'deg) scale(.86)';
+    c.style.transform = 'translateX(-50%) rotate(' + rot.toFixed(1) + 'deg)';
     c.addEventListener('click',()=>lightOne(i));
     candlesEl.appendChild(c);
     candles.push(c);
