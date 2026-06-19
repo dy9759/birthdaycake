@@ -201,11 +201,26 @@
 
   .confetti{position:fixed;top:-12px;width:9px;height:14px;z-index:9;border-radius:2px;pointer-events:none}
 
+  /* ---- celebration background ---- */
+  .celebrate-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1s ease;
+    background:radial-gradient(120% 80% at 50% 16%, rgba(255,212,170,.55), transparent 58%),
+      radial-gradient(110% 82% at 50% 104%, rgba(245,168,196,.5), transparent 60%)}
+  .celebrate-bg.show{opacity:1}
+  .balloon{position:fixed;bottom:-96px;width:46px;height:58px;z-index:1;pointer-events:none;
+    border-radius:50% 50% 50% 50%/46% 46% 54% 54%;
+    background:radial-gradient(circle at 36% 30%, rgba(255,255,255,.66), var(--c) 47%);
+    box-shadow:inset -5px -7px 0 rgba(0,0,0,.05)}
+  .balloon::before{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);
+    width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid var(--c)}
+  .balloon::after{content:"";position:absolute;left:50%;top:100%;width:1.5px;height:74px;
+    background:linear-gradient(rgba(150,110,130,.45),rgba(150,110,130,.08))}
+
   footer{z-index:2;font-size:11.5px;color:rgba(110,70,96,.5);padding-bottom:14px;text-align:center}
 </style>
 </head>
 <body>
   <div class="stars" id="stars"></div>
+  <div class="celebrate-bg" id="celebrateBg"></div>
 
   <header>
     <div class="eyebrow" lang="en">Make a wish</div>
@@ -266,6 +281,7 @@
   const gift = document.getElementById('gift');
   const micRow = document.getElementById('micRow');
   const candleHint = document.getElementById('candleHint');
+  const celebrateBg = document.getElementById('celebrateBg');
 
   // build candles
   const candles = [];
@@ -291,7 +307,7 @@
     if(!scene.classList.contains('opened')) return;
     if(candles[i].classList.contains('on')) return;
     candles[i].classList.add('on');
-    celebrated=false;
+    celebrated=false; stopParty();
     updateScene();
     if(allLit()){
       candleHint.classList.remove('show');
@@ -360,28 +376,66 @@
   }
 
   // ---------- celebration ----------
-  let celebrated=false;
+  let celebrated=false, partyTimer=null;
   const COLORS=['#F5A8C4','#F7C8DA','#E9B872','#D8B6EC','#9FE3C5','#FFB48A'];
+
+  // 撒花:快速出现,缓缓飘落,慢慢消失
   function spawnConfetti(n){
+    const H=window.innerHeight;
     for(let i=0;i<n;i++){
       const conf=document.createElement('div');
       conf.className='confetti';
       conf.style.left=Math.random()*100+'vw';
-      conf.style.background=COLORS[i%COLORS.length];
-      conf.style.transform=`rotate(${Math.random()*360}deg)`;
+      conf.style.background=COLORS[(Math.random()*COLORS.length)|0];
       if(Math.random()<.3) conf.style.borderRadius='50%';
       document.body.appendChild(conf);
-      const dur=2600+Math.random()*1800;
+      const dur=3400+Math.random()*1900, dx=Math.random()*180-90, rot=Math.random()*720-360;
       conf.animate([
-        {transform:`translateY(0) rotate(0deg)`,opacity:1},
-        {transform:`translateY(${window.innerHeight+60}px) rotate(${Math.random()*720-360}deg) translateX(${Math.random()*160-80}px)`,opacity:1}
-      ],{duration:dur,easing:'cubic-bezier(.3,.6,.5,1)'}).onfinish=()=>conf.remove();
+        {transform:'translateY(-14px) rotate(0deg)',opacity:0},
+        {opacity:1,offset:.06},
+        {opacity:1,offset:.5},
+        {transform:`translateY(${H+70}px) translateX(${dx}px) rotate(${rot}deg)`,opacity:0}
+      ],{duration:dur,easing:'cubic-bezier(.25,.6,.5,1)'}).onfinish=()=>conf.remove();
     }
   }
+
+  // 背景气球:从底部缓缓升起
+  function spawnBalloons(n){
+    for(let i=0;i<n;i++){
+      const b=document.createElement('div');
+      b.className='balloon';
+      b.style.setProperty('--c',COLORS[(Math.random()*COLORS.length)|0]);
+      b.style.left=(6+Math.random()*86)+'vw';
+      document.body.appendChild(b);
+      const sway=Math.random()*70-35, dur=5200+Math.random()*3200;
+      b.animate([
+        {transform:'translateY(0) rotate(0)',opacity:0},
+        {transform:`translateY(-14vh) translateX(${sway*.4}px)`,opacity:1,offset:.14},
+        {transform:`translateY(-118vh) translateX(${sway}px) rotate(${sway*.15}deg)`,opacity:1,offset:.88},
+        {transform:`translateY(-130vh) translateX(${sway}px)`,opacity:0}
+      ],{duration:dur,easing:'ease-in'}).onfinish=()=>b.remove();
+    }
+  }
+
+  // 持续庆祝:不断撒花 + 气球,直到重新开始
+  function startParty(){
+    if(celebrateBg) celebrateBg.classList.add('show');
+    spawnConfetti(70); spawnBalloons(8);
+    if(partyTimer) return;
+    partyTimer=setInterval(()=>{
+      spawnConfetti(7);
+      if(Math.random()<.3) spawnBalloons(1);
+    },300);
+  }
+  function stopParty(){
+    if(partyTimer){ clearInterval(partyTimer); partyTimer=null; }
+    if(celebrateBg) celebrateBg.classList.remove('show');
+  }
+
   function celebrate(){
     if(celebrated) return; celebrated=true;
     sub.textContent='🎉 愿望一定会成真的 · 生日快乐!';
-    spawnConfetti(90);
+    startParty();
     cake.animate([{transform:'translateY(6px) scale(1)'},{transform:'translateY(6px) scale(1.06)'},{transform:'translateY(6px) scale(1)'}],{duration:600,easing:'ease-out'});
   }
 
