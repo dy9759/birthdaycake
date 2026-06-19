@@ -32,6 +32,9 @@ jobs:
           # Auto-enable GitHub Pages (Source = GitHub Actions) if not already set
           enablement: true
 
+      - name: Stamp build id (for auto-update of the live page)
+        run: sed -i "s/__BUILD__/${GITHUB_SHA}/g" index.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

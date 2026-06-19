@@ -3,6 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="app-build" content="__BUILD__">
+<script>
+/* 让根网址始终是最新版:检测到有更新的部署就自动刷新(避免 GitHub Pages 浏览器缓存) */
+(function(){
+  try{
+    var el=document.querySelector('meta[name="app-build"]');
+    var BUILD=el?el.getAttribute('content'):'';
+    if(!BUILD||BUILD.charAt(0)==='_') return;            // 未打标(本地)→ 跳过
+    var KEY='bdcake_reloaded_to';
+    fetch(location.pathname+'?_cb='+Date.now(),{cache:'no-store'})
+      .then(function(r){return r.text();})
+      .then(function(t){
+        var m=t.match(/name="app-build" content="([0-9a-fA-F]+)"/);
+        var latest=m?m[1]:BUILD;
+        if(latest!==BUILD && sessionStorage.getItem(KEY)!==latest){
+          sessionStorage.setItem(KEY, latest);
+          location.replace(location.pathname+'?b='+latest.substring(0,8));
+        }
+      }).catch(function(){});
+  }catch(e){}
+})();
+</script>
 <title>吹蜡烛 · 生日快乐</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='88'>🐷</text></svg>">
 <link rel="preload" as="image" href="assets/cake.png" fetchpriority="high">
