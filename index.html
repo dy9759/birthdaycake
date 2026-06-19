@@ -64,7 +64,9 @@
 
   /* ---- gift box (stage 1) ---- */
   .gift{position:absolute;left:50%;top:50%;width:172px;transform:translate(-50%,-50%);
-    cursor:pointer;z-index:4;transition:opacity .45s ease, transform .45s ease}
+    cursor:pointer;z-index:4;transition:opacity .45s ease, transform .45s ease;
+    animation:giftbob 2.4s ease-in-out infinite}
+  @keyframes giftbob{0%,100%{top:50%}50%{top:48.4%}}
   .gift:active{transform:translate(-50%,-50%) scale(.96)}
   .gift .box{position:relative;width:172px;height:122px;border-radius:12px;
     background:linear-gradient(180deg,#F7B7CE,#EC8FB4);
@@ -82,7 +84,12 @@
   .gift .bow::after{right:0;transform:rotate(26deg)}
   .gift .knot{position:absolute;top:-42px;left:50%;transform:translateX(-50%);width:20px;height:24px;
     border-radius:8px;background:linear-gradient(180deg,#F6D78F,#DDA94E);z-index:4}
-  .scene.opened .gift{opacity:0;transform:translate(-50%,-66%) scale(.9);pointer-events:none}
+  .gift .taphint{position:absolute;left:50%;top:140px;transform:translateX(-50%);white-space:nowrap;
+    font-size:13px;font-weight:600;color:var(--rose-dk);background:rgba(255,255,255,.72);
+    padding:5px 13px;border-radius:999px;box-shadow:0 5px 14px var(--shadow);pointer-events:none;
+    animation:taphbob 1.6s ease-in-out infinite}
+  @keyframes taphbob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(5px)}}
+  .scene.opened .gift{opacity:0;transform:translate(-50%,-66%) scale(.9);pointer-events:none;animation:none}
   @keyframes lidpop{0%{transform:translateY(0) rotate(0)}45%{transform:translateY(-26px) rotate(-9deg)}100%{transform:translateY(-46px) rotate(-16deg)}}
   .scene.opened .gift .lid{animation:lidpop .45s ease forwards}
 
@@ -136,6 +143,8 @@
   .controls{z-index:3;display:flex;flex-direction:column;align-items:center;gap:14px;
     margin:6px 0 26px;width:100%;max-width:360px;padding:0 22px}
   .row{display:flex;gap:12px;width:100%}
+  #cakeRow{display:none}
+  #cakeRow.show{display:flex}
   button{flex:1;font-family:inherit;font-size:16px;font-weight:600;color:#7A3F5C;
     border:none;border-radius:999px;padding:15px 14px;cursor:pointer;letter-spacing:.02em;white-space:nowrap;
     background:linear-gradient(180deg,#FBDCE7,var(--rose));
@@ -174,6 +183,7 @@
       <div class="knot"></div>
       <div class="lid"></div>
       <div class="box"><div class="ribbon"></div></div>
+      <div class="taphint">👆 点我打开</div>
     </div>
     <div class="cake" id="cake">
       <div class="candles" id="candles"></div>
@@ -184,10 +194,7 @@
   </div>
 
   <div class="controls">
-    <div class="row" id="giftRow">
-      <button id="giftBtn">🎁 打开礼物</button>
-    </div>
-    <div class="row" id="cakeRow" hidden>
+    <div class="row" id="cakeRow">
       <button id="lightBtn">🔥 点燃蜡烛</button>
       <button id="micBtn" class="ghost">🎤 用麦克风吹</button>
     </div>
@@ -211,8 +218,7 @@
   const meterBar = document.getElementById('meterBar');
   const micHint = document.getElementById('micHint');
   const cake = document.getElementById('cake');
-  const giftBtn = document.getElementById('giftBtn');
-  const giftRow = document.getElementById('giftRow');
+  const gift = document.getElementById('gift');
   const cakeRow = document.getElementById('cakeRow');
 
   // build candles
@@ -241,14 +247,15 @@
     sub.textContent='许个愿……对着麦克风吹灭它 🎤';
   }
 
-  // ---------- stage 1: open the gift ----------
-  giftBtn.addEventListener('click',()=>{
+  // ---------- stage 1: tap the gift box to open ----------
+  function openGift(){
+    if(scene.classList.contains('opened')) return;
     scene.classList.add('opened');
-    giftRow.hidden = true;
-    cakeRow.hidden = false;
+    cakeRow.classList.add('show');
     sub.textContent='点亮蜡烛,准备许愿吧 🕯️';
     spawnConfetti(30);
-  });
+  }
+  gift.addEventListener('click', openGift);
 
   lightBtn.addEventListener('click',()=>{
     candles.forEach((c,i)=>setTimeout(()=>{c.classList.add('on');updateScene();},i*120));
