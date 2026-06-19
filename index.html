@@ -704,16 +704,19 @@
   }
   function startMusic(){
     if(musicOn) return;
-    try{
-      if(!musicCtx) musicCtx=new (window.AudioContext||window.webkitAudioContext)();
-      if(musicCtx.state==='suspended'){ try{musicCtx.resume();}catch(e){} }
+    try{ if(!musicCtx) musicCtx=new (window.AudioContext||window.webkitAudioContext)(); }
+    catch(e){ return; }
+    function begin(){
+      if(musicOn||!musicCtx||musicCtx.state!=='running') return;
       musicGain=musicCtx.createGain();
       musicGain.gain.setValueAtTime(0.0001,musicCtx.currentTime);
       musicGain.gain.exponentialRampToValueAtTime(0.13,musicCtx.currentTime+0.8);
       musicGain.connect(musicCtx.destination);
       musicOn=true; if(musicBtn) musicBtn.textContent='🎵';
       mLoop();
-    }catch(e){}
+    }
+    if(musicCtx.state==='running'){ begin(); }
+    else { try{ musicCtx.resume().then(begin).catch(function(){}); }catch(e){} } // 被拦截则等首次交互再试
   }
   function stopMusic(){
     musicOn=false;
@@ -723,6 +726,12 @@
   }
   function toggleMusic(){ musicOn?stopMusic():startMusic(); }
   if(musicBtn) musicBtn.addEventListener('click', toggleMusic);
+
+  // 打开网站即尝试自动播放;若被浏览器拦截,则在首次交互(点一下/触摸/按键)时开始
+  startMusic();
+  ['pointerdown','touchstart','keydown','click'].forEach(function(ev){
+    window.addEventListener(ev, function onFirst(){ startMusic(); }, {passive:true, once:true});
+  });
 
   // ---------- ambient hearts ----------
   const starWrap=document.getElementById('stars');
