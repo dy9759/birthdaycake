@@ -238,6 +238,13 @@
     background:linear-gradient(rgba(150,110,130,.45),rgba(150,110,130,.08))}
 
   footer{z-index:2;font-size:11.5px;color:rgba(110,70,96,.5);padding-bottom:14px;text-align:center}
+
+  .musicbtn{position:fixed;top:14px;right:14px;z-index:10;width:42px;height:42px;min-width:0;
+    border-radius:50%;padding:0;font-size:18px;line-height:1;color:#7A3F5C;white-space:nowrap;cursor:pointer;
+    background:rgba(255,255,255,.62);box-shadow:0 4px 14px rgba(226,123,166,.28);
+    -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+    display:flex;align-items:center;justify-content:center}
+  .musicbtn:active{transform:scale(.93);box-shadow:0 2px 8px rgba(226,123,166,.28)}
   /* ---- pig wish flow ---- */
   .wishflow{position:fixed;inset:0;z-index:7;display:none;align-items:center;justify-content:center;padding:20px;pointer-events:none}
   .wishflow.show{display:flex}
@@ -275,6 +282,7 @@
 </head>
 <body>
   <div class="stars" id="stars"></div>
+  <button class="musicbtn" id="musicBtn" aria-label="背景音乐">🎵</button>
   <div class="celebrate-bg" id="celebrateBg"></div>
 
   <header>
@@ -354,6 +362,7 @@
   const scene = document.getElementById('scene');
   const sub = document.getElementById('sub');
   const micBtn = document.getElementById('micBtn');
+  const musicBtn = document.getElementById('musicBtn');
   const meter = document.getElementById('meter');
   const meterBar = document.getElementById('meterBar');
   const micHint = document.getElementById('micHint');
@@ -412,6 +421,7 @@
     candleHint.classList.add('show');
     sub.textContent='一根一根点亮这 '+CANDLE_COUNT+' 根蜡烛吧 🕯️';
     spawnConfetti(30);
+    startMusic();   // 开盒后响起《生日快乐》
   }
   gift.addEventListener('click', openGift);
 
@@ -573,6 +583,7 @@
   let micOn=false, audioCtx=null, rafId=null, micStream=null;
   micBtn.addEventListener('click', async ()=>{
     if(micOn){ stopMic(); return; }
+    if(musicOn){ musicWasOn=true; stopMusic(); }  // 用麦克风时先停音乐,避免被吹气检测误判
 
     // 环境不支持(常见于预览窗口的沙箱限制)
     if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
@@ -662,7 +673,56 @@
     micBtn.textContent='🎤 用麦克风吹';
     meter.classList.remove('show'); meterBar.style.width='0%';
     micHint.textContent='';
+    if(musicWasOn){ musicWasOn=false; startMusic(); }  // 吹完恢复音乐
   }
+
+  // ---------- background music: Happy Birthday (Web Audio, 公有领域旋律) ----------
+  let musicCtx=null, musicOn=false, musicTimer=null, musicGain=null, musicWasOn=false;
+  const NF={C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.00,A4:440.00,B4:493.88,
+    C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99};
+  const TUNE=[['G4',.5],['G4',.5],['A4',1],['G4',1],['C5',1],['B4',2],
+    ['G4',.5],['G4',.5],['A4',1],['G4',1],['D5',1],['C5',2],
+    ['G4',.5],['G4',.5],['G5',1],['E5',1],['C5',1],['B4',1],['A4',1],
+    ['F5',.5],['F5',.5],['E5',1],['C5',1],['D5',1],['C5',2]];
+  const BEAT=0.42;
+  function mNote(freq,start,dur){
+    const o=musicCtx.createOscillator(); o.type='triangle'; o.frequency.value=freq;
+    const g=musicCtx.createGain();
+    const a=0.02, rel=0.10, sus=Math.max(0.04,dur-a-rel);
+    g.gain.setValueAtTime(0,start);
+    g.gain.linearRampToValueAtTime(1,start+a);
+    g.gain.setValueAtTime(1,start+a+sus);
+    g.gain.linearRampToValueAtTime(0,start+a+sus+rel);
+    o.connect(g); g.connect(musicGain);
+    o.start(start); o.stop(start+dur+0.03);
+  }
+  function mLoop(){
+    if(!musicOn||!musicCtx) return;
+    let t=musicCtx.currentTime+0.06;
+    for(const nb of TUNE){ mNote(NF[nb[0]],t,nb[1]*BEAT); t+=nb[1]*BEAT; }
+    musicTimer=setTimeout(mLoop, (t-musicCtx.currentTime+0.9)*1000);
+  }
+  function startMusic(){
+    if(musicOn) return;
+    try{
+      if(!musicCtx) musicCtx=new (window.AudioContext||window.webkitAudioContext)();
+      if(musicCtx.state==='suspended'){ try{musicCtx.resume();}catch(e){} }
+      musicGain=musicCtx.createGain();
+      musicGain.gain.setValueAtTime(0.0001,musicCtx.currentTime);
+      musicGain.gain.exponentialRampToValueAtTime(0.13,musicCtx.currentTime+0.8);
+      musicGain.connect(musicCtx.destination);
+      musicOn=true; if(musicBtn) musicBtn.textContent='🎵';
+      mLoop();
+    }catch(e){}
+  }
+  function stopMusic(){
+    musicOn=false;
+    if(musicTimer){ clearTimeout(musicTimer); musicTimer=null; }
+    if(musicGain&&musicCtx){ try{ musicGain.gain.cancelScheduledValues(musicCtx.currentTime); musicGain.gain.setTargetAtTime(0.0001,musicCtx.currentTime,0.12); }catch(e){} }
+    if(musicBtn) musicBtn.textContent='🔇';
+  }
+  function toggleMusic(){ musicOn?stopMusic():startMusic(); }
+  if(musicBtn) musicBtn.addEventListener('click', toggleMusic);
 
   // ---------- ambient hearts ----------
   const starWrap=document.getElementById('stars');
