@@ -62,7 +62,33 @@
     filter:blur(8px);opacity:0;transition:opacity .8s;pointer-events:none}
   .scene.lit .glow{opacity:1}
 
-  .cake{position:relative;width:230px;cursor:default;transform:translateY(6px)}
+  /* ---- gift box (stage 1) ---- */
+  .gift{position:absolute;left:50%;top:50%;width:172px;transform:translate(-50%,-50%);
+    cursor:pointer;z-index:4;transition:opacity .45s ease, transform .45s ease}
+  .gift:active{transform:translate(-50%,-50%) scale(.96)}
+  .gift .box{position:relative;width:172px;height:122px;border-radius:12px;
+    background:linear-gradient(180deg,#F7B7CE,#EC8FB4);
+    box-shadow:inset 0 -8px 0 rgba(150,90,120,.08),0 14px 26px var(--shadow)}
+  .gift .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:30px;height:100%;
+    background:linear-gradient(180deg,#FBE3B0,#E9B872);z-index:1}
+  .gift .lid{position:absolute;top:-20px;left:-11px;width:194px;height:32px;border-radius:9px;
+    background:linear-gradient(180deg,#FAC9DB,#F2A6C3);box-shadow:0 7px 12px var(--shadow);z-index:2;
+    transform-origin:50% 100%}
+  .gift .bow{position:absolute;top:-50px;left:50%;transform:translateX(-50%);width:74px;height:34px;z-index:3}
+  .gift .bow::before,.gift .bow::after{content:"";position:absolute;top:0;width:34px;height:34px;
+    border-radius:50% 50% 50% 50%/64% 64% 36% 36%;
+    background:radial-gradient(circle at 50% 38%,#FBE3B0,#E9B872);box-shadow:0 4px 8px var(--shadow)}
+  .gift .bow::before{left:0;transform:rotate(-26deg)}
+  .gift .bow::after{right:0;transform:rotate(26deg)}
+  .gift .knot{position:absolute;top:-42px;left:50%;transform:translateX(-50%);width:20px;height:24px;
+    border-radius:8px;background:linear-gradient(180deg,#F6D78F,#DDA94E);z-index:4}
+  .scene.opened .gift{opacity:0;transform:translate(-50%,-66%) scale(.9);pointer-events:none}
+  @keyframes lidpop{0%{transform:translateY(0) rotate(0)}45%{transform:translateY(-26px) rotate(-9deg)}100%{transform:translateY(-46px) rotate(-16deg)}}
+  .scene.opened .gift .lid{animation:lidpop .45s ease forwards}
+
+  .cake{position:relative;width:230px;cursor:default;transform:translateY(16px) scale(.96);
+    opacity:0;pointer-events:none;transition:opacity .5s ease .12s, transform .5s ease .12s}
+  .scene.opened .cake{opacity:1;transform:translateY(6px) scale(1);pointer-events:auto}
   .cake .candles{position:absolute;left:0;right:0;top:-58px;display:flex;justify-content:center;
     gap:18px;z-index:5}
   .candle{position:relative;width:11px;height:62px;border-radius:5px;
@@ -138,11 +164,17 @@
   <header>
     <div class="eyebrow" lang="en">Make a wish</div>
     <h1>生日快乐</h1>
-    <p class="sub" id="sub">先点燃蜡烛,再许个愿吹灭它 🎂</p>
+    <p class="sub" id="sub">轻轻打开礼物,惊喜在里面 🎁</p>
   </header>
 
   <div class="scene" id="scene">
     <div class="glow"></div>
+    <div class="gift" id="gift">
+      <div class="bow"></div>
+      <div class="knot"></div>
+      <div class="lid"></div>
+      <div class="box"><div class="ribbon"></div></div>
+    </div>
     <div class="cake" id="cake">
       <div class="candles" id="candles"></div>
       <div class="tier top"></div>
@@ -152,7 +184,10 @@
   </div>
 
   <div class="controls">
-    <div class="row">
+    <div class="row" id="giftRow">
+      <button id="giftBtn">🎁 打开礼物</button>
+    </div>
+    <div class="row" id="cakeRow" hidden>
       <button id="lightBtn">🔥 点燃蜡烛</button>
       <button id="micBtn" class="ghost">🎤 用麦克风吹</button>
     </div>
@@ -162,7 +197,7 @@
     </div>
   </div>
 
-  <footer>点蜡烛可单独点燃 · 对着麦克风吹气熄灭</footer>
+  <footer>打开礼物 → 点燃蜡烛 → 对着麦克风吹气熄灭</footer>
 
 <script>
 (function(){
@@ -176,6 +211,9 @@
   const meterBar = document.getElementById('meterBar');
   const micHint = document.getElementById('micHint');
   const cake = document.getElementById('cake');
+  const giftBtn = document.getElementById('giftBtn');
+  const giftRow = document.getElementById('giftRow');
+  const cakeRow = document.getElementById('cakeRow');
 
   // build candles
   const candles = [];
@@ -200,12 +238,21 @@
     if(candles[i].classList.contains('on')) return;
     candles[i].classList.add('on');
     updateScene();
-    sub.textContent='许个愿……然后吹灭它 ✨';
+    sub.textContent='许个愿……对着麦克风吹灭它 🎤';
   }
+
+  // ---------- stage 1: open the gift ----------
+  giftBtn.addEventListener('click',()=>{
+    scene.classList.add('opened');
+    giftRow.hidden = true;
+    cakeRow.hidden = false;
+    sub.textContent='点亮蜡烛,准备许愿吧 🕯️';
+    spawnConfetti(30);
+  });
 
   lightBtn.addEventListener('click',()=>{
     candles.forEach((c,i)=>setTimeout(()=>{c.classList.add('on');updateScene();},i*120));
-    sub.textContent='许个愿……然后吹灭它 ✨';
+    sub.textContent='许个愿……对着麦克风吹灭它 🎤';
     celebrated=false;
   });
 
@@ -248,10 +295,7 @@
   // ---------- celebration ----------
   let celebrated=false;
   const COLORS=['#F5A8C4','#F7C8DA','#E9B872','#D8B6EC','#9FE3C5','#FFB48A'];
-  function celebrate(){
-    if(celebrated) return; celebrated=true;
-    sub.textContent='🎉 愿望一定会成真的 · 生日快乐!';
-    const n=90;
+  function spawnConfetti(n){
     for(let i=0;i<n;i++){
       const conf=document.createElement('div');
       conf.className='confetti';
@@ -266,6 +310,11 @@
         {transform:`translateY(${window.innerHeight+60}px) rotate(${Math.random()*720-360}deg) translateX(${Math.random()*160-80}px)`,opacity:1}
       ],{duration:dur,easing:'cubic-bezier(.3,.6,.5,1)'}).onfinish=()=>conf.remove();
     }
+  }
+  function celebrate(){
+    if(celebrated) return; celebrated=true;
+    sub.textContent='🎉 愿望一定会成真的 · 生日快乐!';
+    spawnConfetti(90);
     cake.animate([{transform:'translateY(6px) scale(1)'},{transform:'translateY(6px) scale(1.06)'},{transform:'translateY(6px) scale(1)'}],{duration:600,easing:'ease-out'});
   }
 
@@ -276,7 +325,7 @@
 
     // 环境不支持(常见于预览窗口的沙箱限制)
     if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-      micHint.innerHTML='⚠️ 当前预览窗口不允许用麦克风。<br>把文件下载、用手机/电脑的浏览器打开就能吹了。先用上面的「💨 吹一口气」也行。';
+      micHint.innerHTML='⚠️ 当前浏览器环境不允许使用麦克风。<br>请用手机/电脑自带的 Chrome / Safari 打开本页面再试(微信内置浏览器会拦截麦克风)。';
       return;
     }
 
@@ -293,7 +342,7 @@
       }else{
         msg='麦克风启动失败('+err.name+')。';
       }
-      micHint.innerHTML=msg+'<br>没关系,上面的「💨 吹一口气」按钮一样能吹灭 😊';
+      micHint.innerHTML=msg+'<br>用系统自带浏览器(Chrome / Safari)打开并允许麦克风即可 😊';
       meter.classList.remove('show');
       return;
     }
@@ -336,12 +385,12 @@
       }
 
       // 触发阈值:高出环境噪音一截,且有下限
-      const thresh = Math.max(baseline+0.07, baseline*2.2, 0.10);
+      const thresh = Math.max(baseline+0.16, baseline*3.4, 0.22);
       const pct = Math.min(100, ((smooth-baseline)/(thresh-baseline))*70);
       meterBar.style.width=Math.max(0,pct)+'%';
 
       if(anyLit() && smooth>thresh){ sustain++; } else { sustain=Math.max(0,sustain-1); }
-      if(sustain>=3 && anyLit()){ sustain=0; blowOut(); }
+      if(sustain>=7 && anyLit()){ sustain=0; blowOut(); }
 
       rafId=requestAnimationFrame(loop);
     })();
