@@ -6,79 +6,89 @@
 <title>吹蜡烛 · 生日快乐</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg1:#160d24; --bg2:#2c1742; --bg3:#3a1d3f;
-    --cream:#FFF3E2; --cream-sh:#F2D9BC;
-    --pink:#F19FC0; --pink-dk:#D8729F;
-    --sponge:#F7CDA0; --sponge-dk:#E2A878;
-    --plate:#ECDDCC; --plate-sh:#C9B4A0;
-    --gold:#F6C453; --flame:#FF9D2E; --flame-in:#FFE9A8;
-    --ink:#FFF6EA; --muted:#C9B4D8;
+    /* romantic blush palette */
+    --bg1:#FFF7F5; --bg2:#FCE7EE; --bg3:#F1E1F5;
+    --cream:#FFF8F0; --cream-sh:#F6E6D6;
+    --rose:#F5A8C4; --rose-dk:#E27BA6;
+    --sponge:#FCE3CB; --sponge-dk:#F3CBA6;
+    --plate:#FBEFF4; --plate-sh:#E7CBD9;
+    --gold:#E9B872; --rosegold:#E0A0A6;
+    --flame:#FF9D4D; --flame-in:#FFE9B8;
+    --ink:#6E4660; --muted:#A07C92;
+    --shadow:rgba(176,118,150,.26);
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{height:100%}
   body{
-    font-family:"Noto Sans SC",system-ui,sans-serif;
-    color:var(--ink);
+    font-family:-apple-system,"Segoe UI","Noto Sans SC","PingFang SC",sans-serif;
+    color:var(--ink); line-height:1.75; -webkit-font-smoothing:antialiased;
     background:
-      radial-gradient(120% 90% at 50% 12%, rgba(255,176,77,.16), transparent 55%),
-      radial-gradient(140% 120% at 50% 120%, var(--bg3), transparent 60%),
-      linear-gradient(180deg, var(--bg1), var(--bg2));
+      radial-gradient(120% 90% at 50% 8%, rgba(255,214,176,.40), transparent 55%),
+      radial-gradient(130% 120% at 50% 122%, var(--bg3), transparent 62%),
+      linear-gradient(180deg, var(--bg1), var(--bg2) 52%, var(--bg3));
     min-height:100%;
     display:flex; flex-direction:column; align-items:center;
     overflow:hidden; position:relative; touch-action:manipulation;
   }
-  /* drifting ambient sparkles */
+  /* drifting hearts */
   .stars{position:fixed;inset:0;pointer-events:none;z-index:0}
-  .star{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;opacity:.0;
-    animation:twinkle 4s ease-in-out infinite}
-  @keyframes twinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:.7;transform:scale(1)}}
+  .star{position:absolute;width:15px;height:15px;opacity:0;
+    background-repeat:no-repeat;background-position:center;background-size:contain;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23F5A8C4' d='M12 21s-8-5.3-8-11a4.5 4.5 0 0 1 8-2.9A4.5 4.5 0 0 1 20 10c0 5.7-8 11-8 11z'/%3E%3C/svg%3E");
+    filter:drop-shadow(0 2px 5px rgba(226,123,166,.28));
+    animation:twinkle 5s ease-in-out infinite}
+  .star:nth-child(3n){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23E9B872' d='M12 21s-8-5.3-8-11a4.5 4.5 0 0 1 8-2.9A4.5 4.5 0 0 1 20 10c0 5.7-8 11-8 11z'/%3E%3C/svg%3E")}
+  .star:nth-child(3n+1){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23D8B6EC' d='M12 21s-8-5.3-8-11a4.5 4.5 0 0 1 8-2.9A4.5 4.5 0 0 1 20 10c0 5.7-8 11-8 11z'/%3E%3C/svg%3E")}
+  @keyframes twinkle{0%,100%{opacity:0;transform:scale(.5) rotate(-8deg)}50%{opacity:.65;transform:scale(1) rotate(6deg)}}
 
-  header{z-index:2;text-align:center;margin-top:30px;padding:0 18px;transition:opacity .5s}
-  .eyebrow{font-size:13px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
-  h1{font-family:"ZCOOL KuaiLe",cursive;font-weight:400;font-size:clamp(30px,8vw,52px);
-    line-height:1;background:linear-gradient(180deg,#fff,#FFD9A8);-webkit-background-clip:text;
-    background-clip:text;color:transparent;filter:drop-shadow(0 2px 10px rgba(255,160,60,.25))}
-  .sub{margin-top:10px;color:var(--muted);font-size:14px;min-height:20px;transition:color .3s}
+  header{z-index:2;text-align:center;margin-top:34px;padding:0 18px;transition:opacity .5s}
+  .eyebrow{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:600;
+    font-size:17px;letter-spacing:.34em;color:var(--rosegold);text-transform:uppercase;margin-bottom:4px}
+  h1{font-family:"Noto Serif SC","Cormorant Garamond",serif;font-weight:700;
+    font-size:clamp(32px,8.5vw,54px);line-height:1.05;text-wrap:pretty;letter-spacing:.04em;
+    background:linear-gradient(120deg,#E8709F 0%,#D27FB6 55%,#E1A064 100%);-webkit-background-clip:text;
+    background-clip:text;color:transparent;filter:drop-shadow(0 3px 12px rgba(226,123,166,.28))}
+  .sub{margin-top:12px;color:var(--muted);font-size:14.5px;min-height:22px;text-wrap:pretty;transition:color .3s}
 
   /* ---- scene ---- */
   .scene{z-index:2;position:relative;flex:1;display:flex;align-items:center;justify-content:center;
     width:100%;max-width:520px}
   .glow{position:absolute;top:-30px;left:50%;transform:translateX(-50%);
-    width:280px;height:280px;border-radius:50%;
-    background:radial-gradient(circle, rgba(255,170,70,.45), transparent 65%);
-    filter:blur(6px);opacity:0;transition:opacity .8s;pointer-events:none}
+    width:300px;height:300px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,194,128,.50), rgba(245,168,196,.18) 45%, transparent 68%);
+    filter:blur(8px);opacity:0;transition:opacity .8s;pointer-events:none}
   .scene.lit .glow{opacity:1}
 
   .cake{position:relative;width:230px;cursor:default;transform:translateY(6px)}
   .cake .candles{position:absolute;left:0;right:0;top:-58px;display:flex;justify-content:center;
     gap:18px;z-index:5}
-  .candle{position:relative;width:11px;height:62px;border-radius:4px;
-    background:repeating-linear-gradient(45deg,#fff 0 6px,#ff7eb0 6px 12px);
-    box-shadow:inset -3px 0 rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.25);cursor:pointer}
+  .candle{position:relative;width:11px;height:62px;border-radius:5px;
+    background:repeating-linear-gradient(45deg,#fff 0 6px,#F7A8C6 6px 12px);
+    box-shadow:inset -3px 0 rgba(150,90,120,.14), 0 2px 5px rgba(176,118,150,.30);cursor:pointer}
   .candle::after{content:"";position:absolute;top:-4px;left:50%;transform:translateX(-50%);
-    width:2px;height:6px;background:#3a2a1a;border-radius:2px} /* wick */
+    width:2px;height:6px;background:#6b4a55;border-radius:2px} /* wick */
   .flame{position:absolute;top:-26px;left:50%;width:16px;height:26px;margin-left:-8px;
     border-radius:50% 50% 50% 50%/ 60% 60% 40% 40%;
     background:radial-gradient(circle at 50% 75%, var(--flame-in), var(--flame) 55%, #ff5e2e 100%);
     transform-origin:50% 90%;opacity:0;transform:scaleY(.2);
-    box-shadow:0 0 14px 6px rgba(255,150,50,.55), 0 0 38px 14px rgba(255,130,40,.30);
+    box-shadow:0 0 14px 6px rgba(255,165,90,.50), 0 0 38px 14px rgba(255,150,110,.26);
     transition:opacity .12s}
   .candle.on .flame{opacity:1;animation:flicker .28s ease-in-out infinite alternate}
   @keyframes flicker{
-    0%{transform:scaleY(1) rotate(-3deg) translateX(-.3px);box-shadow:0 0 14px 6px rgba(255,150,50,.55),0 0 40px 16px rgba(255,130,40,.30)}
-    100%{transform:scaleY(1.08) rotate(3deg) translateX(.3px);box-shadow:0 0 18px 8px rgba(255,170,60,.6),0 0 50px 20px rgba(255,140,40,.35)}
+    0%{transform:scaleY(1) rotate(-3deg) translateX(-.3px);box-shadow:0 0 14px 6px rgba(255,165,90,.5),0 0 40px 16px rgba(255,150,110,.28)}
+    100%{transform:scaleY(1.08) rotate(3deg) translateX(.3px);box-shadow:0 0 18px 8px rgba(255,185,110,.58),0 0 50px 20px rgba(255,160,120,.32)}
   }
 
   /* cake body */
   .tier{position:relative;margin:0 auto;border-radius:14px 14px 8px 8px;
-    box-shadow:inset 0 -8px 0 rgba(0,0,0,.06), 0 8px 18px rgba(20,8,30,.45)}
-  .top{width:172px;height:60px;background:linear-gradient(180deg,var(--pink),var(--pink-dk));
+    box-shadow:inset 0 -8px 0 rgba(150,90,120,.06), 0 10px 22px var(--shadow)}
+  .top{width:172px;height:60px;background:linear-gradient(180deg,var(--rose),var(--rose-dk));
     z-index:3}
   .icing{width:182px;height:30px;margin:-22px auto 0;position:relative;z-index:4;
-    background:var(--cream);border-radius:16px;box-shadow:0 6px 10px rgba(20,8,30,.25)}
+    background:var(--cream);border-radius:16px;box-shadow:0 6px 12px rgba(176,118,150,.20)}
   /* drips */
   .icing::before,.icing::after{content:"";position:absolute;bottom:-9px;width:18px;height:18px;
     background:var(--cream);border-radius:50%}
@@ -87,45 +97,46 @@
   .bottom{width:230px;height:78px;margin-top:-6px;
     background:linear-gradient(180deg,var(--sponge),var(--sponge-dk));z-index:2}
   .bottom::before{content:"";position:absolute;top:18px;left:0;right:0;height:14px;
-    background:repeating-linear-gradient(90deg,transparent 0 14px,rgba(255,255,255,.35) 14px 22px)}
+    background:repeating-linear-gradient(90deg,transparent 0 14px,rgba(245,168,196,.45) 14px 22px)}
   .plate{width:280px;height:26px;margin:-10px auto 0;border-radius:50%;
     background:radial-gradient(ellipse at 50% 35%,var(--plate),var(--plate-sh));
-    box-shadow:0 16px 26px rgba(10,4,18,.55);z-index:1}
+    box-shadow:0 16px 30px rgba(176,118,150,.34);z-index:1}
 
   .smoke{position:absolute;width:10px;height:10px;border-radius:50%;
-    background:radial-gradient(circle,rgba(220,220,230,.8),rgba(200,200,210,0) 70%);
+    background:radial-gradient(circle,rgba(170,140,160,.7),rgba(170,140,160,0) 70%);
     pointer-events:none;z-index:6}
 
   /* ---- controls ---- */
   .controls{z-index:3;display:flex;flex-direction:column;align-items:center;gap:14px;
     margin:6px 0 26px;width:100%;max-width:360px;padding:0 22px}
   .row{display:flex;gap:12px;width:100%}
-  button{flex:1;font-family:inherit;font-size:16px;font-weight:500;color:#2a1326;
-    border:none;border-radius:999px;padding:15px 18px;cursor:pointer;
-    background:linear-gradient(180deg,#FFE7B0,var(--gold));
-    box-shadow:0 6px 0 #c79224,0 10px 18px rgba(0,0,0,.3);transition:transform .08s,box-shadow .08s}
-  button:active{transform:translateY(4px);box-shadow:0 2px 0 #c79224,0 5px 10px rgba(0,0,0,.3)}
-  button.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.28)}
-  button.ghost:active{transform:translateY(2px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.28)}
-  button:disabled{opacity:.4;pointer-events:none}
+  button{flex:1;font-family:inherit;font-size:16px;font-weight:600;color:#7A3F5C;
+    border:none;border-radius:999px;padding:15px 18px;cursor:pointer;letter-spacing:.02em;
+    background:linear-gradient(180deg,#FBDCE7,var(--rose));
+    box-shadow:0 6px 0 #DC88A8,0 10px 20px rgba(226,123,166,.30);transition:transform .08s,box-shadow .08s}
+  button:active{transform:translateY(4px);box-shadow:0 2px 0 #DC88A8,0 5px 12px rgba(226,123,166,.30)}
+  button.ghost{background:rgba(255,255,255,.55);color:var(--ink);
+    box-shadow:inset 0 0 0 1.6px rgba(226,123,166,.40),0 4px 12px rgba(226,123,166,.12)}
+  button.ghost:active{transform:translateY(2px);box-shadow:inset 0 0 0 1.6px rgba(226,123,166,.40)}
+  button:disabled{opacity:.42;pointer-events:none}
 
   .mic{width:100%;display:flex;flex-direction:column;gap:8px;align-items:center}
-  .mic-hint{font-size:13px;color:var(--muted);text-align:center;min-height:18px}
-  .meter{width:100%;height:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;display:none}
+  .mic-hint{font-size:13px;color:var(--muted);text-align:center;text-wrap:pretty;min-height:18px}
+  .meter{width:100%;height:10px;border-radius:999px;background:rgba(226,123,166,.16);overflow:hidden;display:none}
   .meter.show{display:block}
   .meter > i{display:block;height:100%;width:0%;border-radius:999px;
-    background:linear-gradient(90deg,#7ee0a0,var(--gold),#ff8a4d);transition:width .06s}
+    background:linear-gradient(90deg,#9FE3C5,var(--gold),var(--rose-dk));transition:width .06s}
 
   .confetti{position:fixed;top:-12px;width:9px;height:14px;z-index:9;border-radius:2px;pointer-events:none}
 
-  footer{z-index:2;font-size:11px;color:rgba(255,255,255,.3);padding-bottom:14px;text-align:center}
+  footer{z-index:2;font-size:11.5px;color:rgba(110,70,96,.5);padding-bottom:14px;text-align:center}
 </style>
 </head>
 <body>
   <div class="stars" id="stars"></div>
 
   <header>
-    <div class="eyebrow">Make a wish</div>
+    <div class="eyebrow" lang="en">Make a wish</div>
     <h1>生日快乐</h1>
     <p class="sub" id="sub">先点燃蜡烛,再许个愿吹灭它 🎂</p>
   </header>
@@ -241,7 +252,7 @@
 
   // ---------- celebration ----------
   let celebrated=false;
-  const COLORS=['#F6C453','#F19FC0','#7ee0a0','#7cc0ff','#ff8a4d','#fff'];
+  const COLORS=['#F5A8C4','#F7C8DA','#E9B872','#D8B6EC','#9FE3C5','#FFB48A'];
   function celebrate(){
     if(celebrated) return; celebrated=true;
     sub.textContent='🎉 愿望一定会成真的 · 生日快乐!';
@@ -350,7 +361,7 @@
     micHint.textContent='';
   }
 
-  // ---------- ambient stars ----------
+  // ---------- ambient hearts ----------
   const starWrap=document.getElementById('stars');
   for(let i=0;i<26;i++){
     const s=document.createElement('div');s.className='star';
