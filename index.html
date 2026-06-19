@@ -109,29 +109,35 @@
   .scene.opened .candle:not(.on){animation:wickpulse 1.7s ease-in-out infinite}
   @keyframes wickpulse{0%,100%{box-shadow:inset -3px 0 rgba(150,90,120,.14),0 2px 5px rgba(176,118,150,.30)}
     50%{box-shadow:inset -3px 0 rgba(150,90,120,.14),0 2px 5px rgba(176,118,150,.30),0 0 0 3px rgba(245,168,196,.35)}}
-  /* ---- bichon puppy topper ---- */
-  .cake .dog{position:absolute;left:50%;top:70px;transform:translateX(-50%);width:86px;height:74px;z-index:4;
-    pointer-events:none;filter:drop-shadow(0 4px 8px rgba(176,118,150,.32))}
-  .dog .head{position:absolute;left:50%;top:8px;transform:translateX(-50%);width:64px;height:58px;
-    border-radius:52% 52% 50% 50%;background:radial-gradient(circle at 50% 34%,#fff,#FCEFEA);z-index:2}
-  .dog .ear{position:absolute;top:13px;width:30px;height:41px;
-    border-radius:50% 50% 50% 50%/62% 62% 38% 38%;
-    background:radial-gradient(circle at 50% 28%,#FDF3EF,#EBD2CB);z-index:1}
-  .dog .ear.l{left:-4px;transform:rotate(-15deg)}
-  .dog .ear.r{right:-4px;transform:rotate(15deg)}
-  .dog .hair{position:absolute;left:50%;top:1px;transform:translateX(-50%);width:36px;height:26px;
-    border-radius:50%;background:radial-gradient(circle at 50% 64%,#fff,#FCEFEA);z-index:3}
-  .dog .eye{position:absolute;top:30px;width:9px;height:10px;border-radius:50%;background:#4a343b;z-index:4}
+  /* ---- bichon puppy topper (fluffy pure-CSS) ---- */
+  .cake .dog{position:absolute;left:50%;top:56px;transform:translateX(-50%);width:104px;height:96px;z-index:4;
+    pointer-events:none;filter:drop-shadow(0 5px 9px rgba(176,118,150,.30))}
+  .dog span{position:absolute}
+  /* floppy fluffy ears (behind head) */
+  .dog .ear{top:32px;width:36px;height:44px;border-radius:54% 46% 46% 54%/62% 62% 38% 38%;
+    background:radial-gradient(circle at 50% 32%,#FBF3E4,#E9D9BE);z-index:1}
+  .dog .ear.l{left:2px;transform:rotate(-17deg)}
+  .dog .ear.r{right:2px;transform:rotate(17deg)}
+  /* fluffy head — cloud silhouette via box-shadow puffs */
+  .dog .head{left:50%;top:14px;transform:translateX(-50%);width:64px;height:58px;border-radius:50%;
+    background:#FFFDF7;z-index:2;
+    box-shadow:-21px 3px 0 -5px #FFFDF7, 21px 3px 0 -5px #FFFDF7,
+      -16px 17px 0 -7px #FFFDF7, 16px 17px 0 -7px #FFFDF7,
+      -17px -11px 0 -8px #FFFDF7, 17px -11px 0 -8px #FFFDF7,
+      0 -15px 0 -6px #FFFDF7, inset -7px -9px 12px rgba(238,226,206,.55)}
+  /* signature top poof */
+  .dog .tuft{left:50%;top:1px;transform:translateX(-50%);width:42px;height:32px;border-radius:50%;
+    background:#FFFDF7;z-index:3;box-shadow:-13px 7px 0 -7px #FFFDF7,13px 7px 0 -7px #FFFDF7}
+  /* face */
+  .dog .cheek{top:48px;width:11px;height:7px;border-radius:50%;background:rgba(245,150,180,.55);z-index:4}
+  .dog .cheek.l{left:25px} .dog .cheek.r{right:25px}
+  .dog .eye{top:37px;width:9px;height:11px;border-radius:50%;background:#3c2f34;z-index:5}
   .dog .eye::after{content:"";position:absolute;top:2px;left:2px;width:3px;height:3px;border-radius:50%;background:#fff}
-  .dog .eye.l{left:19px}
-  .dog .eye.r{right:19px}
-  .dog .cheek{position:absolute;top:39px;width:10px;height:7px;border-radius:50%;background:rgba(245,150,180,.6);z-index:4}
-  .dog .cheek.l{left:12px}
-  .dog .cheek.r{right:12px}
-  .dog .nose{position:absolute;left:50%;top:39px;transform:translateX(-50%);width:12px;height:9px;
-    border-radius:50% 50% 50% 50%/40% 40% 60% 60%;background:#5b3a44;z-index:5}
-  .dog .nose::after{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%);
-    width:1.5px;height:9px;background:rgba(120,80,95,.5)}
+  .dog .eye.l{left:36px} .dog .eye.r{right:36px}
+  .dog .nose{left:50%;top:48px;transform:translateX(-50%);width:11px;height:8px;
+    border-radius:50% 50% 50% 50%/38% 38% 62% 62%;background:#3c2f34;z-index:6}
+  .dog .mouth{left:50%;top:56px;transform:translateX(-50%);width:15px;height:7px;z-index:5;
+    border-bottom:2px solid #6b5a52;border-radius:0 0 80% 80%/0 0 100% 100%}
 
   .cake .candles{position:absolute;left:0;right:0;top:-58px;display:flex;justify-content:center;
     gap:18px;z-index:5}
@@ -254,10 +260,10 @@
       <div class="tier bottom"></div>
       <div class="dog">
         <span class="ear l"></span><span class="ear r"></span>
-        <span class="head"></span><span class="hair"></span>
+        <span class="head"></span><span class="tuft"></span>
         <span class="cheek l"></span><span class="cheek r"></span>
         <span class="eye l"></span><span class="eye r"></span>
-        <span class="nose"></span>
+        <span class="nose"></span><span class="mouth"></span>
       </div>
     </div>
   </div>
