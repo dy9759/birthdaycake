@@ -142,28 +142,9 @@
   .collie .mouth{left:50%;top:66px;transform:translateX(-50%);width:18px;height:8px;z-index:5;
     border-bottom:2px solid #6a5a52;border-radius:0 0 80% 80%/0 0 100% 100%}
 
-  /* bichon (fluffy white) */
-  .bichon .ear{top:30px;width:36px;height:46px;z-index:1;border-radius:54% 46% 46% 54%/62% 62% 38% 38%;
-    background:radial-gradient(circle at 50% 32%,#FBF3E4,#E7D6BC)}
-  .bichon .ear.l{left:0;transform:rotate(-18deg)}
-  .bichon .ear.r{right:0;transform:rotate(18deg)}
-  .bichon .head{left:50%;top:14px;transform:translateX(-50%);width:66px;height:60px;border-radius:50%;background:#FFFDF7;z-index:2;
-    box-shadow:-22px 3px 0 -5px #FFFDF7,22px 3px 0 -5px #FFFDF7,-17px 18px 0 -7px #FFFDF7,17px 18px 0 -7px #FFFDF7,
-      -18px -11px 0 -8px #FFFDF7,18px -11px 0 -8px #FFFDF7,0 -16px 0 -6px #FFFDF7,inset -7px -9px 12px rgba(238,226,206,.5)}
-  .bichon .tuft{left:50%;top:0;transform:translateX(-50%);width:44px;height:34px;border-radius:50%;background:#FFFDF7;z-index:3;
-    box-shadow:-14px 8px 0 -7px #FFFDF7,14px 8px 0 -7px #FFFDF7}
-  .bichon .muzzle{left:50%;top:43px;transform:translateX(-50%);width:42px;height:33px;border-radius:50%;z-index:4;
-    background:radial-gradient(circle at 50% 30%,#fff,#F4EADB)}
-  .bichon .cheek{top:45px;width:11px;height:7px;border-radius:50%;background:rgba(245,150,180,.5);z-index:5}
-  .bichon .cheek.l{left:19px}.bichon .cheek.r{right:19px}
-  .bichon .eye{top:35px;width:10px;height:12px;border-radius:50%;background:#2f2730;z-index:6;animation:blink 5.2s infinite .6s}
-  .bichon .eye::after{content:"";position:absolute;top:2px;left:2px;width:3px;height:3px;border-radius:50%;background:#fff}
-  .bichon .eye.l{left:30px}.bichon .eye.r{right:30px}
-  .bichon .nose{left:50%;top:47px;transform:translateX(-50%);width:12px;height:9px;z-index:7;
-    border-radius:50% 50% 50% 50%/40% 40% 60% 60%;background:#2f2730}
-  .bichon .tongue{left:50%;top:57px;transform:translateX(-50%);width:10px;height:12px;z-index:6;
-    border-radius:50% 50% 50% 50%/38% 38% 62% 62%;background:#F58CA8}
-  .bichon .tongue::after{content:"";position:absolute;left:50%;top:2px;transform:translateX(-50%);width:1.5px;height:7px;background:rgba(200,90,120,.55)}
+  /* bichon (fluffy white) — inline SVG, kawaii style */
+  .bichon svg{position:absolute;left:50%;top:2px;transform:translateX(-50%);width:108px;height:auto;overflow:visible}
+  .bichon .b-eye{transform-box:fill-box;transform-origin:50% 50%;animation:blink 5.2s infinite .8s}
 
   .cake .candles{position:absolute;left:0;right:0;top:-58px;display:flex;justify-content:center;
     gap:18px;z-index:5}
@@ -256,6 +237,39 @@
     background:linear-gradient(rgba(150,110,130,.45),rgba(150,110,130,.08))}
 
   footer{z-index:2;font-size:11.5px;color:rgba(110,70,96,.5);padding-bottom:14px;text-align:center}
+  /* ---- pig wish flow ---- */
+  .wishflow{position:fixed;inset:0;z-index:7;display:none;align-items:center;justify-content:center;padding:20px;pointer-events:none}
+  .wishflow.show{display:flex}
+  .wishcard{pointer-events:auto;width:min(90vw,330px);background:rgba(255,250,247,.95);
+    border-radius:24px;padding:24px 22px;text-align:center;
+    box-shadow:0 18px 50px rgba(176,118,150,.35), inset 0 0 0 1.5px rgba(255,255,255,.6);
+    animation:wishpop .45s cubic-bezier(.2,.8,.3,1.2)}
+  .wf-step{display:none;flex-direction:column;align-items:center;gap:12px}
+  .wf-step.active{display:flex}
+  .wf-pig{font-size:42px;line-height:1;animation:tiltR 3s ease-in-out infinite}
+  .wf-title{font-family:"Noto Serif SC",serif;font-weight:700;font-size:22px;letter-spacing:.03em;
+    background:linear-gradient(120deg,#E8709F,#D27FB6 55%,#E1A064);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .wf-sub{font-size:14px;color:var(--muted)}
+  .wf-opts{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:2px}
+  .wf-opt{flex:0 0 auto;width:100%;font-size:15px;font-weight:600;color:var(--ink);white-space:normal;
+    background:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1.6px rgba(226,123,166,.4);border-radius:16px;padding:13px 14px;cursor:pointer}
+  .wf-opt:active{transform:translateY(2px);box-shadow:inset 0 0 0 1.6px rgba(226,123,166,.4)}
+  .wf-custom{display:none;gap:8px;width:100%;margin-top:2px}
+  .wf-custom.show{display:flex}
+  .wf-custom input{flex:1;min-width:0;font-family:inherit;font-size:16px;color:var(--ink);
+    border:none;border-radius:14px;padding:12px 14px;background:#fff;box-shadow:inset 0 0 0 1.6px rgba(226,123,166,.4)}
+  .wf-custom input::placeholder{color:#C9A7B8}
+  .wf-go{flex:0 0 auto;width:auto;font-size:15px;font-weight:600;color:#7A3F5C;white-space:nowrap;cursor:pointer;
+    background:linear-gradient(180deg,#FBDCE7,var(--rose));box-shadow:0 5px 0 #DC88A8;border-radius:14px;padding:12px 16px}
+  .wf-go:active{transform:translateY(3px);box-shadow:0 2px 0 #DC88A8}
+  .wf-ack{font-family:"Noto Serif SC",serif;font-weight:700;font-size:21px;color:var(--rose-dk)}
+  .wf-ackwish{font-size:14px;color:var(--muted)}
+  .wf-final-title{font-family:"Noto Serif SC",serif;font-weight:700;font-size:25px;
+    background:linear-gradient(120deg,#E8709F,#D27FB6 55%,#E1A064);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .wf-final-text{font-size:15px;color:var(--rose-dk);font-weight:600;line-height:1.75;text-wrap:pretty}
+  .wf-restart{flex:0 0 auto;width:auto;margin-top:4px;font-size:14px;font-weight:600;color:#7A3F5C;white-space:nowrap;cursor:pointer;
+    background:linear-gradient(180deg,#FBDCE7,var(--rose));box-shadow:0 5px 0 #DC88A8;border-radius:999px;padding:11px 20px}
+  .wf-restart:active{transform:translateY(3px);box-shadow:0 2px 0 #DC88A8}
 </style>
 </head>
 <body>
@@ -293,11 +307,20 @@
           <span class="nose"></span><span class="mouth"></span>
         </div>
         <div class="pup bichon">
-          <span class="ear l"></span><span class="ear r"></span>
-          <span class="head"></span><span class="tuft"></span><span class="muzzle"></span>
-          <span class="cheek l"></span><span class="cheek r"></span>
-          <span class="eye l"></span><span class="eye r"></span>
-          <span class="nose"></span><span class="tongue"></span>
+          <svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-label="比熊">
+            <path d="M60 13 A 9.5 9.5 0 0 1 78.22 17.16 A 9.5 9.5 0 0 1 92.84 28.81 A 9.5 9.5 0 0 1 100.95 45.66 A 9.5 9.5 0 0 1 100.95 64.34 A 9.5 9.5 0 0 1 92.84 81.19 A 9.5 9.5 0 0 1 78.22 92.84 A 9.5 9.5 0 0 1 60 97 A 9.5 9.5 0 0 1 41.78 92.84 A 9.5 9.5 0 0 1 27.16 81.19 A 9.5 9.5 0 0 1 19.05 64.34 A 9.5 9.5 0 0 1 19.05 45.66 A 9.5 9.5 0 0 1 27.16 28.81 A 9.5 9.5 0 0 1 41.78 17.16 A 9.5 9.5 0 0 1 60 13 Z" fill="#FFFFFF" stroke="#4B3A2F" stroke-width="3" stroke-linejoin="round"/>
+            <g stroke="#C9B6A6" stroke-width="2" stroke-linecap="round">
+              <line x1="31" y1="58" x2="36" y2="59"/><line x1="30" y1="62" x2="35" y2="63"/><line x1="32" y1="66" x2="37" y2="66"/>
+              <line x1="89" y1="58" x2="84" y2="59"/><line x1="90" y1="62" x2="85" y2="63"/><line x1="88" y1="66" x2="83" y2="66"/>
+            </g>
+            <path d="M54 72 q0 12 6 12 q6 0 6 -12 z" fill="#F58CA8" stroke="#4B3A2F" stroke-width="1.6" stroke-linejoin="round"/>
+            <line x1="60" y1="74" x2="60" y2="83" stroke="#D96E8E" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M60 70 q-6 7 -12 2 M60 70 q6 7 12 2" fill="none" stroke="#4B3A2F" stroke-width="2.6" stroke-linecap="round"/>
+            <ellipse cx="60" cy="66" rx="6.5" ry="5" fill="#6E4A34"/>
+            <ellipse cx="58" cy="64.5" rx="2" ry="1.4" fill="#9B6E50"/>
+            <g class="b-eye"><circle cx="46" cy="55" r="7.5" fill="#2B2320"/><circle cx="48.4" cy="52.4" r="2.4" fill="#fff"/></g>
+            <g class="b-eye"><circle cx="74" cy="55" r="7.5" fill="#2B2320"/><circle cx="76.4" cy="52.4" r="2.4" fill="#fff"/></g>
+          </svg>
         </div>
       </div>
     </div>
@@ -319,6 +342,36 @@
   </div>
 
   <footer>打开礼物 → 点燃蜡烛 → 对着麦克风吹气熄灭</footer>
+
+  <div class="wishflow" id="wishFlow">
+    <div class="wishcard">
+      <div class="wf-step active" id="wfAsk">
+        <div class="wf-pig">🐷</div>
+        <div class="wf-title">小猪许愿</div>
+        <div class="wf-sub">想要什么礼物呀?</div>
+        <div class="wf-opts">
+          <button class="wf-opt" data-wish="大别墅和小狗 🏡🐶">A · 大别墅和小狗</button>
+          <button class="wf-opt" data-wish="包包 👜">B · 包包</button>
+          <button class="wf-opt" id="wfCustomBtn">C · 自己填写</button>
+        </div>
+        <div class="wf-custom" id="wfCustom">
+          <input id="wfInput" type="text" maxlength="20" placeholder="写下你的愿望…">
+          <button class="wf-go" id="wfInputOk">许愿</button>
+        </div>
+      </div>
+      <div class="wf-step" id="wfAck">
+        <div class="wf-pig">🎁</div>
+        <div class="wf-ack">收到,臭臭马上安排!</div>
+        <div class="wf-ackwish" id="wfAckWish"></div>
+      </div>
+      <div class="wf-step" id="wfFinal">
+        <div class="wf-pig">🎂</div>
+        <div class="wf-final-title">祝小猪</div>
+        <div class="wf-final-text">拥有 大别墅和小狗、包包和小裙子…… 🏡🐶👜👗</div>
+        <button class="wf-restart" id="wfRestart">再许一次 🎈</button>
+      </div>
+    </div>
+  </div>
 
 <script>
 (function(){
@@ -361,7 +414,7 @@
     if(!scene.classList.contains('opened')) return;
     if(candles[i].classList.contains('on')) return;
     candles[i].classList.add('on');
-    celebrated=false; stopParty(); wishMsg.classList.remove('show');
+    celebrated=false; stopParty(); closeWishFlow();
     updateScene();
     if(allLit()){
       candleHint.classList.remove('show');
@@ -491,10 +544,36 @@
     sub.textContent='愿望一定会成真 ✨';
     if(micOn) stopMic();              // 自动关闭麦克风
     micRow.classList.remove('show');  // 隐藏按钮(音量条由 stopMic 隐藏)
-    wishMsg.classList.add('show');    // 出现祝福文字
-    startParty();
+    spawnConfetti(40);                // 吹灭瞬间小撒花
     cake.animate([{transform:'translateY(6px) scale(1)'},{transform:'translateY(6px) scale(1.06)'},{transform:'translateY(6px) scale(1)'}],{duration:600,easing:'ease-out'});
+    setTimeout(openWishFlow, 600);    // 进入「小猪许愿」环节
   }
+
+  // ---------- pig wish flow ----------
+  const wishFlow=document.getElementById('wishFlow');
+  function wfShow(id){ ['wfAsk','wfAck','wfFinal'].forEach(s=>document.getElementById(s).classList.toggle('active', s===id)); }
+  function openWishFlow(){
+    document.getElementById('wfCustom').classList.remove('show');
+    document.getElementById('wfInput').value='';
+    wfShow('wfAsk'); wishFlow.classList.add('show');
+  }
+  function closeWishFlow(){ wishFlow.classList.remove('show'); }
+  function chooseWish(text){
+    document.getElementById('wfAckWish').textContent='「'+text+'」';
+    wfShow('wfAck');
+    setTimeout(()=>{ wfShow('wfFinal'); startParty(); }, 1800);
+  }
+  document.querySelectorAll('.wf-opt[data-wish]').forEach(b=>b.addEventListener('click',()=>chooseWish(b.getAttribute('data-wish'))));
+  document.getElementById('wfCustomBtn').addEventListener('click',()=>{
+    document.getElementById('wfCustom').classList.add('show');
+    setTimeout(()=>document.getElementById('wfInput').focus(),50);
+  });
+  document.getElementById('wfInputOk').addEventListener('click',()=>{
+    const v=document.getElementById('wfInput').value.trim();
+    chooseWish(v||'你悄悄许的小心愿');
+  });
+  document.getElementById('wfInput').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('wfInputOk').click(); });
+  document.getElementById('wfRestart').addEventListener('click',()=>{ stopParty(); openWishFlow(); });
 
   // ---------- microphone blow ----------
   let micOn=false, audioCtx=null, rafId=null, micStream=null;
