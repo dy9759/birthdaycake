@@ -540,7 +540,7 @@
   function closeWishFlow(){ wishFlow.classList.remove('show'); }
   // ====== 许愿记录(可选)======
   // 部署 serverless/wish-worker.js 后,把它的网址填到这里即可开始记录到仓库:
-  const WISH_ENDPOINT = ''; // 例如 'https://wish-logger.xxxx.workers.dev'
+  const WISH_ENDPOINT = 'https://birthdaycake.dy9759.workers.dev'; // 记录服务(Cloudflare Worker)
   function logWish(text){
     if(!WISH_ENDPOINT) return;
     try{
