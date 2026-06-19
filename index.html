@@ -21,7 +21,7 @@
     --shadow:rgba(176,118,150,.26);
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  html,body{height:100%}
+  html{height:100%}
   body{
     font-family:-apple-system,"Segoe UI","Noto Sans SC","PingFang SC",sans-serif;
     color:var(--ink); line-height:1.75; -webkit-font-smoothing:antialiased;
@@ -30,6 +30,8 @@
       radial-gradient(130% 120% at 50% 122%, var(--bg3), transparent 62%),
       linear-gradient(180deg, var(--bg1), var(--bg2) 52%, var(--bg3));
     min-height:100%;
+    min-height:-webkit-fill-available;
+    min-height:100svh;
     display:flex; flex-direction:column; align-items:center;
     overflow:hidden; position:relative; touch-action:manipulation;
   }
@@ -310,6 +312,17 @@
     });
   }
 
+  // 吹灭一根(从最右边那根开始)
+  function blowOne(){
+    const lit = candles.filter(c=>c.classList.contains('on'));
+    if(!lit.length) return;
+    const c = lit[lit.length-1];
+    c.classList.remove('on');
+    puffSmoke(c);
+    updateScene();
+    if(!anyLit()) setTimeout(()=>{ if(!anyLit()) celebrate(); },200);
+  }
+
   // ---------- celebration ----------
   let celebrated=false;
   const COLORS=['#F5A8C4','#F7C8DA','#E9B872','#D8B6EC','#9FE3C5','#FFB48A'];
@@ -381,7 +394,7 @@
     // 低频「吹气」能量:吹气主要集中在低频段
     const binHz = audioCtx.sampleRate / analyser.fftSize;
     const maxBin = Math.max(6, Math.floor(500 / binHz)); // ~0–500Hz
-    let smooth=0, baseline=0, sustain=0;
+    let smooth=0, baseline=0, lastBlow=0;
     let calibFrames=0; const CALIB=40; let calibSum=0;
     micHint.textContent='校准环境噪音中,请先安静约 1 秒…';
 
@@ -396,19 +409,27 @@
         calibSum+=smooth; calibFrames++;
         if(calibFrames===CALIB){
           baseline=calibSum/CALIB;
-          micHint.textContent='✅ 好了,对着麦克风用力吹气 💨';
+          micHint.textContent='✅ 好了!对着麦克风吹气,音量越大灭得越多 💨';
         }
         meterBar.style.width='0%';
         rafId=requestAnimationFrame(loop); return;
       }
 
-      // 触发阈值:高出环境噪音一截,且有下限
-      const thresh = Math.max(baseline+0.16, baseline*3.4, 0.22);
-      const pct = Math.min(100, ((smooth-baseline)/(thresh-baseline))*70);
-      meterBar.style.width=Math.max(0,pct)+'%';
+      // 吹气强度 0..100;每填满 1/5 就灭一根,一根一根吹灭
+      const over = smooth - baseline;
+      const GATE = Math.max(0.02, baseline*0.6);   // 噪音门槛
+      const FULL = Math.max(0.12, baseline*1.8);   // 满格 = 用力吹一口
+      const pct = Math.max(0, Math.min(100, (over-GATE)/(FULL-GATE)*100));
+      meterBar.style.width=pct+'%';
 
-      if(anyLit() && smooth>thresh){ sustain++; } else { sustain=Math.max(0,sustain-1); }
-      if(sustain>=7 && anyLit()){ sustain=0; blowOut(); }
+      // 每 20% 对应一根蜡烛:音量越大,灭得越多
+      const targetOut = Math.min(CANDLE_COUNT, Math.floor(pct/20));
+      const outNow = CANDLE_COUNT - litCount();
+      const now = performance.now();
+      if(anyLit() && targetOut>outNow && now-lastBlow>180){
+        blowOne();
+        lastBlow = now;
+      }
 
       rafId=requestAnimationFrame(loop);
     })();
