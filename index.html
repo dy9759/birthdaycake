@@ -153,8 +153,8 @@
   .controls{z-index:3;display:flex;flex-direction:column;align-items:center;gap:14px;
     margin:6px 0 26px;width:100%;max-width:360px;padding:0 22px}
   .row{display:flex;gap:12px;width:100%}
-  #micRow{display:none}
-  #micRow.show{display:flex}
+  #micRow{visibility:hidden}
+  #micRow.show{visibility:visible}
   button{flex:1;font-family:inherit;font-size:16px;font-weight:600;color:#7A3F5C;
     border:none;border-radius:999px;padding:15px 14px;cursor:pointer;letter-spacing:.02em;white-space:nowrap;
     background:linear-gradient(180deg,#FBDCE7,var(--rose));
@@ -167,8 +167,8 @@
 
   .mic{width:100%;display:flex;flex-direction:column;gap:8px;align-items:center}
   .mic-hint{font-size:13px;color:var(--muted);text-align:center;text-wrap:pretty;min-height:18px}
-  .meter{width:100%;height:10px;border-radius:999px;background:rgba(226,123,166,.16);overflow:hidden;display:none}
-  .meter.show{display:block}
+  .meter{width:100%;height:10px;border-radius:999px;background:rgba(226,123,166,.16);overflow:hidden;visibility:hidden}
+  .meter.show{visibility:visible}
   .meter > i{display:block;height:100%;width:0%;border-radius:999px;
     background:linear-gradient(90deg,#9FE3C5,var(--gold),var(--rose-dk));transition:width .06s}
 
