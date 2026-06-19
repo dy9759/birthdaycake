@@ -55,8 +55,11 @@
     background-clip:text;color:transparent;filter:drop-shadow(0 3px 12px rgba(226,123,166,.28))}
   .sub{margin-top:12px;color:var(--muted);font-size:14.5px;min-height:22px;text-wrap:pretty;transition:color .3s}
 
+  /* ---- stage: groups cake + action area so the prompts/buttons share one height ---- */
+  .stage{z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;gap:10px}
+
   /* ---- scene ---- */
-  .scene{z-index:2;position:relative;flex:1;display:flex;align-items:center;justify-content:center;
+  .scene{z-index:2;position:relative;display:flex;align-items:center;justify-content:center;
     width:100%;max-width:520px}
   .glow{position:absolute;top:-30px;left:50%;transform:translateX(-50%);
     width:300px;height:300px;border-radius:50%;
@@ -106,6 +109,30 @@
   .scene.opened .candle:not(.on){animation:wickpulse 1.7s ease-in-out infinite}
   @keyframes wickpulse{0%,100%{box-shadow:inset -3px 0 rgba(150,90,120,.14),0 2px 5px rgba(176,118,150,.30)}
     50%{box-shadow:inset -3px 0 rgba(150,90,120,.14),0 2px 5px rgba(176,118,150,.30),0 0 0 3px rgba(245,168,196,.35)}}
+  /* ---- bichon puppy topper ---- */
+  .cake .dog{position:absolute;left:50%;top:70px;transform:translateX(-50%);width:86px;height:74px;z-index:4;
+    pointer-events:none;filter:drop-shadow(0 4px 8px rgba(176,118,150,.32))}
+  .dog .head{position:absolute;left:50%;top:8px;transform:translateX(-50%);width:64px;height:58px;
+    border-radius:52% 52% 50% 50%;background:radial-gradient(circle at 50% 34%,#fff,#FCEFEA);z-index:2}
+  .dog .ear{position:absolute;top:13px;width:30px;height:41px;
+    border-radius:50% 50% 50% 50%/62% 62% 38% 38%;
+    background:radial-gradient(circle at 50% 28%,#FDF3EF,#EBD2CB);z-index:1}
+  .dog .ear.l{left:-4px;transform:rotate(-15deg)}
+  .dog .ear.r{right:-4px;transform:rotate(15deg)}
+  .dog .hair{position:absolute;left:50%;top:1px;transform:translateX(-50%);width:36px;height:26px;
+    border-radius:50%;background:radial-gradient(circle at 50% 64%,#fff,#FCEFEA);z-index:3}
+  .dog .eye{position:absolute;top:30px;width:9px;height:10px;border-radius:50%;background:#4a343b;z-index:4}
+  .dog .eye::after{content:"";position:absolute;top:2px;left:2px;width:3px;height:3px;border-radius:50%;background:#fff}
+  .dog .eye.l{left:19px}
+  .dog .eye.r{right:19px}
+  .dog .cheek{position:absolute;top:39px;width:10px;height:7px;border-radius:50%;background:rgba(245,150,180,.6);z-index:4}
+  .dog .cheek.l{left:12px}
+  .dog .cheek.r{right:12px}
+  .dog .nose{position:absolute;left:50%;top:39px;transform:translateX(-50%);width:12px;height:9px;
+    border-radius:50% 50% 50% 50%/40% 40% 60% 60%;background:#5b3a44;z-index:5}
+  .dog .nose::after{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+    width:1.5px;height:9px;background:rgba(120,80,95,.5)}
+
   .cake .candles{position:absolute;left:0;right:0;top:-58px;display:flex;justify-content:center;
     gap:18px;z-index:5}
   .candle{position:relative;width:11px;height:62px;border-radius:5px;
@@ -150,8 +177,8 @@
     pointer-events:none;z-index:6}
 
   /* ---- controls ---- */
-  .controls{z-index:3;display:flex;flex-direction:column;align-items:center;gap:14px;
-    margin:6px 0 26px;width:100%;max-width:360px;padding:0 22px}
+  .controls{z-index:3;display:flex;flex-direction:column;align-items:center;gap:12px;
+    margin:0;width:100%;max-width:360px;padding:0 22px}
   .row{display:flex;gap:12px;width:100%}
   #micRow{visibility:hidden}
   #micRow.show{visibility:visible}
@@ -186,6 +213,7 @@
     <p class="sub" id="sub">轻轻打开礼物,惊喜在里面 🎁</p>
   </header>
 
+  <div class="stage">
   <div class="scene" id="scene">
     <div class="glow"></div>
     <div class="gift" id="gift">
@@ -201,6 +229,13 @@
       <div class="tier top"></div>
       <div class="icing"></div>
       <div class="tier bottom"></div>
+      <div class="dog">
+        <span class="ear l"></span><span class="ear r"></span>
+        <span class="head"></span><span class="hair"></span>
+        <span class="cheek l"></span><span class="cheek r"></span>
+        <span class="eye l"></span><span class="eye r"></span>
+        <span class="nose"></span>
+      </div>
     </div>
   </div>
 
@@ -212,6 +247,7 @@
       <div class="meter" id="meter"><i id="meterBar"></i></div>
       <div class="mic-hint" id="micHint"></div>
     </div>
+  </div>
   </div>
 
   <footer>打开礼物 → 点燃蜡烛 → 对着麦克风吹气熄灭</footer>
