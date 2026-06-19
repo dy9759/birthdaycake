@@ -111,7 +111,7 @@
     margin:6px 0 26px;width:100%;max-width:360px;padding:0 22px}
   .row{display:flex;gap:12px;width:100%}
   button{flex:1;font-family:inherit;font-size:16px;font-weight:600;color:#7A3F5C;
-    border:none;border-radius:999px;padding:15px 18px;cursor:pointer;letter-spacing:.02em;
+    border:none;border-radius:999px;padding:15px 14px;cursor:pointer;letter-spacing:.02em;white-space:nowrap;
     background:linear-gradient(180deg,#FBDCE7,var(--rose));
     box-shadow:0 6px 0 #DC88A8,0 10px 20px rgba(226,123,166,.30);transition:transform .08s,box-shadow .08s}
   button:active{transform:translateY(4px);box-shadow:0 2px 0 #DC88A8,0 5px 12px rgba(226,123,166,.30)}
@@ -150,14 +150,13 @@
       <div class="tier bottom"></div>
     </div>
   </div>
-  <div class="plate" style="position:relative;z-index:2;margin-top:-30px"></div>
 
   <div class="controls">
     <div class="row">
       <button id="lightBtn">🔥 点燃蜡烛</button>
+      <button id="micBtn" class="ghost">🎤 用麦克风吹</button>
     </div>
     <div class="mic">
-      <button id="micBtn" class="ghost">🎤 用麦克风吹</button>
       <div class="meter" id="meter"><i id="meterBar"></i></div>
       <div class="mic-hint" id="micHint"></div>
     </div>
