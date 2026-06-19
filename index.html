@@ -538,9 +538,23 @@
     wfShow('wfAsk'); wishFlow.classList.add('show');
   }
   function closeWishFlow(){ wishFlow.classList.remove('show'); }
+  // ====== 许愿记录(可选)======
+  // 部署 serverless/wish-worker.js 后,把它的网址填到这里即可开始记录到仓库:
+  const WISH_ENDPOINT = ''; // 例如 'https://wish-logger.xxxx.workers.dev'
+  function logWish(text){
+    if(!WISH_ENDPOINT) return;
+    try{
+      fetch(WISH_ENDPOINT, {
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=UTF-8'}, // 简单请求,避免 CORS 预检
+        body:JSON.stringify({ wish:text, ts:new Date().toISOString(), ua:navigator.userAgent })
+      }).catch(function(){});
+    }catch(e){}
+  }
   function chooseWish(text){
     document.getElementById('wfAckWish').textContent='「'+text+'」';
     wfShow('wfAck');
+    logWish(text);               // 把愿望记录到仓库(若已配置)
     setTimeout(()=>{ wfShow('wfFinal'); startParty(); }, 1800);
   }
   document.querySelectorAll('.wf-opt[data-wish]').forEach(b=>b.addEventListener('click',()=>chooseWish(b.getAttribute('data-wish'))));
